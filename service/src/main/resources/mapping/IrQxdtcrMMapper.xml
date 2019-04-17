@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.IrQxdtcrMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.IrQxdtcrM">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="QXZ_STN_ID" property="qxzStnId" jdbcType="VARCHAR"/>
+        <result column="QXZ_TYPE" property="qxzType" jdbcType="VARCHAR"/>
+        <result column="QXZ_WZ" property="qxzWz" jdbcType="VARCHAR"/>
+        <result column="QXZ_CITY" property="qxzCity" jdbcType="VARCHAR"/>
+        <result column="QXZ_AREA" property="qxzArea" jdbcType="VARCHAR"/>
+        <result column="QXZ_NAME" property="qxzName" jdbcType="VARCHAR"/>
+        <result column="QXZ_X" property="qxzX" jdbcType="REAL"/>
+        <result column="QXZ_Y" property="qxzY" jdbcType="REAL"/>
+        <result column="QXZ_Z" property="qxzZ" jdbcType="REAL"/>
+        <result column="QXZ_WDHT" property="qxzWdht" jdbcType="REAL"/>
+        <result column="QXZ_QYHT" property="qxzQyht" jdbcType="REAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, QXZ_STN_ID, QXZ_TYPE, QXZ_WZ, QXZ_CITY, QXZ_AREA, QXZ_NAME, QXZ_X, QXZ_Y, QXZ_Z, 
+    QXZ_WDHT, QXZ_QYHT
+  </sql>
+    <select id="findMaxQxDate" resultType="java.util.Date">
+        SELECT MAX(QX_D_DATE) FROM t_ir_qxdtcr_m WHERE QXZ_STN_ID =#{qxzid}
+    </select>
+    <select id="findMinQxDate" resultType="java.util.Date">
+        SELECT MIN(QX_D_DATE) FROM t_ir_qxdtcr_m WHERE QXZ_STN_ID =#{qxzid}
+    </select>
+    <select id="findCrInMonth" resultType="java.lang.Float">
+        SELECT sum(QX_D_P_CR)/COUNT(QX_D_P_CR)
+        FROM t_ir_qxdtcr_m
+        WHERE QXZ_STN_ID = #{qxzid} AND MONTH(QX_D_DATE)=MONTH(#{time})
+    </select>
+    <select id="findEt0InMonth" resultType="java.lang.Float">
+        SELECT sum(QX_D_ET0)/COUNT(QX_D_ET0)
+        FROM t_ir_qxdtcr_m
+        WHERE QXZ_STN_ID = #{qxzid} AND MONTH(QX_D_DATE)=MONTH(#{time})
+    </select>
+    <select id="findCrInDate" resultType="java.lang.Float">
+        SELECT QX_D_P_CR
+        FROM t_ir_qxdtcr_m
+        WHERE QXZ_STN_ID = #{qxzid} AND QX_D_DATE=#{time}
+    </select>
+    <select id="findEt0InDate" resultType="java.lang.Float">
+        SELECT QX_D_ET0
+        FROM t_ir_qxdtcr_m
+        WHERE QXZ_STN_ID = #{qxzid} AND QX_D_DATE=#{time}
+    </select>
+    <select id="findQxdate" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(DISTINCT QX_D_DATE)
+         FROM t_ir_qxdtcr_m
+         WHERE QXZ_STN_ID = #{qxzid} AND QX_D_DATE >= #{startTime} AND  #{endTime}>QX_D_DATE
+    </select>
+    <select id="fildQxzId" resultType="java.lang.String">
+    SELECT ifnull(A.QXZ_STN_ID,'-')
+    FROM t_ir_qxzdvc_m AS A, area AS B
+    WHERE B.id=#{fieldid} AND a.QXZ_TYPE ='基本站' OR a.QXZ_TYPE='基准站'
+    AND b.lat is not NULL AND b.lng is not NULL
+    ORDER BY SQRT(POW((A.QXZ_X-B.lng),2)+POW((a.QXZ_Y-b.lat),2)) LIMIT 1
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_ir_qxzdvc_m
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_ir_qxzdvc_m
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.IrQxdtcrM">
+    insert into t_ir_qxzdvc_m (id, QXZ_STN_ID, QXZ_TYPE, 
+      QXZ_WZ, QXZ_CITY, QXZ_AREA, 
+      QXZ_NAME, QXZ_X, QXZ_Y, QXZ_Z, 
+      QXZ_WDHT, QXZ_QYHT)
+    values (#{id,jdbcType=INTEGER}, #{qxzStnId,jdbcType=VARCHAR}, #{qxzType,jdbcType=VARCHAR}, 
+      #{qxzWz,jdbcType=VARCHAR}, #{qxzCity,jdbcType=VARCHAR}, #{qxzArea,jdbcType=VARCHAR}, 
+      #{qxzName,jdbcType=VARCHAR}, #{qxzX,jdbcType=REAL}, #{qxzY,jdbcType=REAL}, #{qxzZ,jdbcType=REAL}, 
+      #{qxzWdht,jdbcType=REAL}, #{qxzQyht,jdbcType=REAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.IrQxdtcrM">
+        insert into t_ir_qxzdvc_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="qxzStnId != null">
+                QXZ_STN_ID,
+            </if>
+            <if test="qxzType != null">
+                QXZ_TYPE,
+            </if>
+            <if test="qxzWz != null">
+                QXZ_WZ,
+            </if>
+            <if test="qxzCity != null">
+                QXZ_CITY,
+            </if>
+            <if test="qxzArea != null">
+                QXZ_AREA,
+            </if>
+            <if test="qxzName != null">
+                QXZ_NAME,
+            </if>
+            <if test="qxzX != null">
+                QXZ_X,
+            </if>
+            <if test="qxzY != null">
+                QXZ_Y,
+            </if>
+            <if test="qxzZ != null">
+                QXZ_Z,
+            </if>
+            <if test="qxzWdht != null">
+                QXZ_WDHT,
+            </if>
+            <if test="qxzQyht != null">
+                QXZ_QYHT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="qxzStnId != null">
+                #{qxzStnId,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzType != null">
+                #{qxzType,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzWz != null">
+                #{qxzWz,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzCity != null">
+                #{qxzCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzArea != null">
+                #{qxzArea,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzName != null">
+                #{qxzName,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzX != null">
+                #{qxzX,jdbcType=REAL},
+            </if>
+            <if test="qxzY != null">
+                #{qxzY,jdbcType=REAL},
+            </if>
+            <if test="qxzZ != null">
+                #{qxzZ,jdbcType=REAL},
+            </if>
+            <if test="qxzWdht != null">
+                #{qxzWdht,jdbcType=REAL},
+            </if>
+            <if test="qxzQyht != null">
+                #{qxzQyht,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.IrQxdtcrM">
+        update t_ir_qxzdvc_m
+        <set>
+            <if test="qxzStnId != null">
+                QXZ_STN_ID = #{qxzStnId,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzType != null">
+                QXZ_TYPE = #{qxzType,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzWz != null">
+                QXZ_WZ = #{qxzWz,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzCity != null">
+                QXZ_CITY = #{qxzCity,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzArea != null">
+                QXZ_AREA = #{qxzArea,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzName != null">
+                QXZ_NAME = #{qxzName,jdbcType=VARCHAR},
+            </if>
+            <if test="qxzX != null">
+                QXZ_X = #{qxzX,jdbcType=REAL},
+            </if>
+            <if test="qxzY != null">
+                QXZ_Y = #{qxzY,jdbcType=REAL},
+            </if>
+            <if test="qxzZ != null">
+                QXZ_Z = #{qxzZ,jdbcType=REAL},
+            </if>
+            <if test="qxzWdht != null">
+                QXZ_WDHT = #{qxzWdht,jdbcType=REAL},
+            </if>
+            <if test="qxzQyht != null">
+                QXZ_QYHT = #{qxzQyht,jdbcType=REAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.IrQxdtcrM">
+    update t_ir_qxzdvc_m
+    set QXZ_STN_ID = #{qxzStnId,jdbcType=VARCHAR},
+      QXZ_TYPE = #{qxzType,jdbcType=VARCHAR},
+      QXZ_WZ = #{qxzWz,jdbcType=VARCHAR},
+      QXZ_CITY = #{qxzCity,jdbcType=VARCHAR},
+      QXZ_AREA = #{qxzArea,jdbcType=VARCHAR},
+      QXZ_NAME = #{qxzName,jdbcType=VARCHAR},
+      QXZ_X = #{qxzX,jdbcType=REAL},
+      QXZ_Y = #{qxzY,jdbcType=REAL},
+      QXZ_Z = #{qxzZ,jdbcType=REAL},
+      QXZ_WDHT = #{qxzWdht,jdbcType=REAL},
+      QXZ_QYHT = #{qxzQyht,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

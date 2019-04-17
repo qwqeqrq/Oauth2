@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.IrCrpirrPlanMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.IrCrpirrPlan">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="CRPIRR_PLAN_ID" property="crpirrPlanId" jdbcType="VARCHAR"/>
+        <result column="CRPIRR_PLAN_NT" property="crpirrPlanNt" jdbcType="VARCHAR"/>
+        <result column="CRPIRR_PLAN_TYPE" property="crpirrPlanType" jdbcType="VARCHAR"/>
+        <result column="CRPIRR_PLAN_TM" property="crpirrPlanTm" jdbcType="DATE"/>
+        <result column="CRPIRR_DATE" property="crpirrDate" jdbcType="DATE"/>
+        <result column="CRPIRR_WDFC" property="crpirrWdfc" jdbcType="REAL"/>
+        <result column="CRPIRR_IRR_DATA" property="crpirrIrrData" jdbcType="REAL"/>
+        <result column="CRPIRR_PLAN_DATA" property="crpirrPlanData" jdbcType="REAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, FIELD_ID, CRP_VRT_ID, CRPIRR_PLAN_ID, CRPIRR_PLAN_NT, CRPIRR_PLAN_TYPE, CRPIRR_PLAN_TM, 
+    CRPIRR_DATE, CRPIRR_WDFC, CRPIRR_IRR_DATA, CRPIRR_PLAN_DATA
+  </sql>
+    <select id="selectcrpirrDateInFirsttime" resultType="java.util.Date">
+        SELECT min(CRPIRR_DATE)
+        FROM T_IR_CRPIRR_PLAN
+        WHERE FIELD_ID =#{fieldid} AND CRP_VRT_ID =#{vatid}
+        AND CRPIRR_DATE>=(SELECT startTime
+        FROM crop_plant WHERE RID=#{fieldid} AND varietyId=#{vatid})
+    </select>
+    <select id="selectCrpirrPlandata" resultType="java.lang.Float">
+        select crpirr_plan_data
+        from t_ir_crpirr_plan
+        where field_id=#{fieldid} and crp_vrt_id=#{vatid} and crpirr_date=#{dfi}
+    </select>
+    <select id="selectCrpirrDate" resultType="java.util.Date">
+        SELECT min(CRPIRR_DATE)
+        FROM T_IR_CRPIRR_PLAN
+        WHERE FIELD_ID =#{fieldid} AND CRP_VRT_ID =#{vatid}
+            AND CRPIRR_DATE>= (SELECT MAX(IRRI_GROUP_STOP)
+            FROM t_sf_dgggsc_m
+            WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid})
+        AND CRPIRR_DATE>=(SELECT startTime
+        FROM crop_plant WHERE RID=#{fieldid} AND varietyId=#{vatid})
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_ir_crpirr_plan
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_ir_crpirr_plan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.IrCrpirrPlan">
+    insert into t_ir_crpirr_plan (id, FIELD_ID, CRP_VRT_ID, 
+      CRPIRR_PLAN_ID, CRPIRR_PLAN_NT, CRPIRR_PLAN_TYPE, 
+      CRPIRR_PLAN_TM, CRPIRR_DATE, CRPIRR_WDFC, 
+      CRPIRR_IRR_DATA, CRPIRR_PLAN_DATA)
+    values (#{id,jdbcType=INTEGER}, #{fieldId,jdbcType=BIGINT}, #{crpVrtId,jdbcType=BIGINT}, 
+      #{crpirrPlanId,jdbcType=VARCHAR}, #{crpirrPlanNt,jdbcType=VARCHAR}, #{crpirrPlanType,jdbcType=VARCHAR}, 
+      #{crpirrPlanTm,jdbcType=DATE}, #{crpirrDate,jdbcType=DATE}, #{crpirrWdfc,jdbcType=REAL}, 
+      #{crpirrIrrData,jdbcType=REAL}, #{crpirrPlanData,jdbcType=REAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.IrCrpirrPlan">
+        insert into t_ir_crpirr_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="crpirrPlanId != null">
+                CRPIRR_PLAN_ID,
+            </if>
+            <if test="crpirrPlanNt != null">
+                CRPIRR_PLAN_NT,
+            </if>
+            <if test="crpirrPlanType != null">
+                CRPIRR_PLAN_TYPE,
+            </if>
+            <if test="crpirrPlanTm != null">
+                CRPIRR_PLAN_TM,
+            </if>
+            <if test="crpirrDate != null">
+                CRPIRR_DATE,
+            </if>
+            <if test="crpirrWdfc != null">
+                CRPIRR_WDFC,
+            </if>
+            <if test="crpirrIrrData != null">
+                CRPIRR_IRR_DATA,
+            </if>
+            <if test="crpirrPlanData != null">
+                CRPIRR_PLAN_DATA,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpirrPlanId != null">
+                #{crpirrPlanId,jdbcType=VARCHAR},
+            </if>
+            <if test="crpirrPlanNt != null">
+                #{crpirrPlanNt,jdbcType=VARCHAR},
+            </if>
+            <if test="crpirrPlanType != null">
+                #{crpirrPlanType,jdbcType=VARCHAR},
+            </if>
+            <if test="crpirrPlanTm != null">
+                #{crpirrPlanTm,jdbcType=DATE},
+            </if>
+            <if test="crpirrDate != null">
+                #{crpirrDate,jdbcType=DATE},
+            </if>
+            <if test="crpirrWdfc != null">
+                #{crpirrWdfc,jdbcType=REAL},
+            </if>
+            <if test="crpirrIrrData != null">
+                #{crpirrIrrData,jdbcType=REAL},
+            </if>
+            <if test="crpirrPlanData != null">
+                #{crpirrPlanData,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.IrCrpirrPlan">
+        update t_ir_crpirr_plan
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpirrPlanId != null">
+                CRPIRR_PLAN_ID = #{crpirrPlanId,jdbcType=VARCHAR},
+            </if>
+            <if test="crpirrPlanNt != null">
+                CRPIRR_PLAN_NT = #{crpirrPlanNt,jdbcType=VARCHAR},
+            </if>
+            <if test="crpirrPlanType != null">
+                CRPIRR_PLAN_TYPE = #{crpirrPlanType,jdbcType=VARCHAR},
+            </if>
+            <if test="crpirrPlanTm != null">
+                CRPIRR_PLAN_TM = #{crpirrPlanTm,jdbcType=DATE},
+            </if>
+            <if test="crpirrDate != null">
+                CRPIRR_DATE = #{crpirrDate,jdbcType=DATE},
+            </if>
+            <if test="crpirrWdfc != null">
+                CRPIRR_WDFC = #{crpirrWdfc,jdbcType=REAL},
+            </if>
+            <if test="crpirrIrrData != null">
+                CRPIRR_IRR_DATA = #{crpirrIrrData,jdbcType=REAL},
+            </if>
+            <if test="crpirrPlanData != null">
+                CRPIRR_PLAN_DATA = #{crpirrPlanData,jdbcType=REAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.IrCrpirrPlan">
+    update t_ir_crpirr_plan
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      CRPIRR_PLAN_ID = #{crpirrPlanId,jdbcType=VARCHAR},
+      CRPIRR_PLAN_NT = #{crpirrPlanNt,jdbcType=VARCHAR},
+      CRPIRR_PLAN_TYPE = #{crpirrPlanType,jdbcType=VARCHAR},
+      CRPIRR_PLAN_TM = #{crpirrPlanTm,jdbcType=DATE},
+      CRPIRR_DATE = #{crpirrDate,jdbcType=DATE},
+      CRPIRR_WDFC = #{crpirrWdfc,jdbcType=REAL},
+      CRPIRR_IRR_DATA = #{crpirrIrrData,jdbcType=REAL},
+      CRPIRR_PLAN_DATA = #{crpirrPlanData,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

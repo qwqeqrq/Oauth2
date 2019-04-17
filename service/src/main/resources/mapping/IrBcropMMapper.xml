@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.IrBcropMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.IrBcropM">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="pname" property="pname" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="BIGINT"/>
+        <result column="dname" property="dname" jdbcType="VARCHAR"/>
+        <result column="did" property="did" jdbcType="BIGINT"/>
+        <result column="cid" property="cid" jdbcType="INTEGER"/>
+        <result column="cname" property="cname" jdbcType="VARCHAR"/>
+        <result column="CRP_BCROP" property="crpBcrop" jdbcType="REAL"/>
+        <result column="CRP_BSCROP" property="crpBscrop" jdbcType="REAL"/>
+        <result column="crpVrtSeeddateM" property="crpvrtseeddatem" jdbcType="VARCHAR"/>
+        <result column="crpVrtSeeddateD" property="crpvrtseeddated" jdbcType="VARCHAR"/>
+        <result column="crpVrtHvsdateM" property="crpvrthvsdatem" jdbcType="VARCHAR"/>
+        <result column="crpVrtHvsdateD" property="crpvrthvsdated" jdbcType="VARCHAR"/>
+        <result column="CRP_JYZ_GX" property="crpJyzGx" jdbcType="TIMESTAMP"/>
+        <result column="fieid" property="fieid" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, CRP_VRT_ID, pname, pid, dname, did, cid, cname, CRP_BCROP, CRP_BSCROP, crpVrtSeeddateM, 
+    crpVrtSeeddateD, crpVrtHvsdateM, crpVrtHvsdateD, CRP_JYZ_GX, fieid
+  </sql>
+    <select id="FindcrpVrtSeeddateM" resultType="java.lang.String">
+    SELECT crpVrtSeeddateM FROM T_IR_BCROP_M WHERE CRP_VRT_ID=#{vatid}
+  </select>
+    <select id="FindcrpVrtSeeddateD" resultType="java.lang.String">
+    SELECT crpVrtSeeddateD FROM T_IR_BCROP_M WHERE CRP_VRT_ID=#{vatid}
+  </select>
+    <select id="FindcrpVrtHvsdateM" resultType="java.lang.String">
+    SELECT crpVrtHvsdateM FROM T_IR_BCROP_M WHERE CRP_VRT_ID=#{vatid}
+  </select>
+    <select id="FindcrpVrtHvsdateD" resultType="java.lang.String">
+    SELECT crpVrtSeeddateD FROM T_IR_BCROP_M WHERE CRP_VRT_ID=#{vatid}
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from "t_ir_bcrop_m"
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from "t_ir_bcrop_m"
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.IrBcropM">
+    insert into "t_ir_bcrop_m" (id, CRP_VRT_ID, pname, 
+      pid, dname, did, cid, 
+      cname, CRP_BCROP, CRP_BSCROP, 
+      crpVrtSeeddateM, crpVrtSeeddateD, crpVrtHvsdateM, 
+      crpVrtHvsdateD, CRP_JYZ_GX, fieid
+      )
+    values (#{id,jdbcType=BIGINT}, #{crpVrtId,jdbcType=BIGINT}, #{pname,jdbcType=VARCHAR}, 
+      #{pid,jdbcType=BIGINT}, #{dname,jdbcType=VARCHAR}, #{did,jdbcType=BIGINT}, #{cid,jdbcType=INTEGER}, 
+      #{cname,jdbcType=VARCHAR}, #{crpBcrop,jdbcType=REAL}, #{crpBscrop,jdbcType=REAL}, 
+      #{crpvrtseeddatem,jdbcType=VARCHAR}, #{crpvrtseeddated,jdbcType=VARCHAR}, #{crpvrthvsdatem,jdbcType=VARCHAR}, 
+      #{crpvrthvsdated,jdbcType=VARCHAR}, #{crpJyzGx,jdbcType=TIMESTAMP}, #{fieid,jdbcType=BIGINT}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.IrBcropM">
+        insert into "t_ir_bcrop_m"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="pname != null">
+                pname,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="dname != null">
+                dname,
+            </if>
+            <if test="did != null">
+                did,
+            </if>
+            <if test="cid != null">
+                cid,
+            </if>
+            <if test="cname != null">
+                cname,
+            </if>
+            <if test="crpBcrop != null">
+                CRP_BCROP,
+            </if>
+            <if test="crpBscrop != null">
+                CRP_BSCROP,
+            </if>
+            <if test="crpvrtseeddatem != null">
+                crpVrtSeeddateM,
+            </if>
+            <if test="crpvrtseeddated != null">
+                crpVrtSeeddateD,
+            </if>
+            <if test="crpvrthvsdatem != null">
+                crpVrtHvsdateM,
+            </if>
+            <if test="crpvrthvsdated != null">
+                crpVrtHvsdateD,
+            </if>
+            <if test="crpJyzGx != null">
+                CRP_JYZ_GX,
+            </if>
+            <if test="fieid != null">
+                fieid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="pname != null">
+                #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="dname != null">
+                #{dname,jdbcType=VARCHAR},
+            </if>
+            <if test="did != null">
+                #{did,jdbcType=BIGINT},
+            </if>
+            <if test="cid != null">
+                #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="cname != null">
+                #{cname,jdbcType=VARCHAR},
+            </if>
+            <if test="crpBcrop != null">
+                #{crpBcrop,jdbcType=REAL},
+            </if>
+            <if test="crpBscrop != null">
+                #{crpBscrop,jdbcType=REAL},
+            </if>
+            <if test="crpvrtseeddatem != null">
+                #{crpvrtseeddatem,jdbcType=VARCHAR},
+            </if>
+            <if test="crpvrtseeddated != null">
+                #{crpvrtseeddated,jdbcType=VARCHAR},
+            </if>
+            <if test="crpvrthvsdatem != null">
+                #{crpvrthvsdatem,jdbcType=VARCHAR},
+            </if>
+            <if test="crpvrthvsdated != null">
+                #{crpvrthvsdated,jdbcType=VARCHAR},
+            </if>
+            <if test="crpJyzGx != null">
+                #{crpJyzGx,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fieid != null">
+                #{fieid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.IrBcropM">
+        update "t_ir_bcrop_m"
+        <set>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="pname != null">
+                pname = #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="dname != null">
+                dname = #{dname,jdbcType=VARCHAR},
+            </if>
+            <if test="did != null">
+                did = #{did,jdbcType=BIGINT},
+            </if>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="cname != null">
+                cname = #{cname,jdbcType=VARCHAR},
+            </if>
+            <if test="crpBcrop != null">
+                CRP_BCROP = #{crpBcrop,jdbcType=REAL},
+            </if>
+            <if test="crpBscrop != null">
+                CRP_BSCROP = #{crpBscrop,jdbcType=REAL},
+            </if>
+            <if test="crpvrtseeddatem != null">
+                crpVrtSeeddateM = #{crpvrtseeddatem,jdbcType=VARCHAR},
+            </if>
+            <if test="crpvrtseeddated != null">
+                crpVrtSeeddateD = #{crpvrtseeddated,jdbcType=VARCHAR},
+            </if>
+            <if test="crpvrthvsdatem != null">
+                crpVrtHvsdateM = #{crpvrthvsdatem,jdbcType=VARCHAR},
+            </if>
+            <if test="crpvrthvsdated != null">
+                crpVrtHvsdateD = #{crpvrthvsdated,jdbcType=VARCHAR},
+            </if>
+            <if test="crpJyzGx != null">
+                CRP_JYZ_GX = #{crpJyzGx,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fieid != null">
+                fieid = #{fieid,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.IrBcropM">
+    update "t_ir_bcrop_m"
+    set CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      pname = #{pname,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=BIGINT},
+      dname = #{dname,jdbcType=VARCHAR},
+      did = #{did,jdbcType=BIGINT},
+      cid = #{cid,jdbcType=INTEGER},
+      cname = #{cname,jdbcType=VARCHAR},
+      CRP_BCROP = #{crpBcrop,jdbcType=REAL},
+      CRP_BSCROP = #{crpBscrop,jdbcType=REAL},
+      crpVrtSeeddateM = #{crpvrtseeddatem,jdbcType=VARCHAR},
+      crpVrtSeeddateD = #{crpvrtseeddated,jdbcType=VARCHAR},
+      crpVrtHvsdateM = #{crpvrthvsdatem,jdbcType=VARCHAR},
+      crpVrtHvsdateD = #{crpvrthvsdated,jdbcType=VARCHAR},
+      CRP_JYZ_GX = #{crpJyzGx,jdbcType=TIMESTAMP},
+      fieid = #{fieid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

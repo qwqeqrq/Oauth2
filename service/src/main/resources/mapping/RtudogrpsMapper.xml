@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.RtudogrpsMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.Rtudogrps">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="did" property="did" jdbcType="BIGINT"/>
+        <result column="blockid" property="blockid" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="maxdos" property="maxdos" jdbcType="INTEGER"/>
+        <result column="mm" property="mm" jdbcType="INTEGER"/>
+        <result column="mmm" property="mmm" jdbcType="INTEGER"/>
+        <result column="hh" property="hh" jdbcType="INTEGER"/>
+        <result column="mhh" property="mhh" jdbcType="INTEGER"/>
+        <result column="dd" property="dd" jdbcType="INTEGER"/>
+        <result column="mdd" property="mdd" jdbcType="INTEGER"/>
+        <result column="mon" property="mon" jdbcType="INTEGER"/>
+        <result column="mmon" property="mmon" jdbcType="INTEGER"/>
+        <result column="keepmins" property="keepmins" jdbcType="INTEGER"/>
+        <result column="kml" property="kml" jdbcType="VARCHAR"/>
+        <result column="dripgrpidx" property="dripgrpidx" jdbcType="INTEGER"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_user" property="updatedUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, did, blockid, name, maxdos, mm, mmm, hh, mhh, dd, mdd, mon, mmon, keepmins, kml, 
+    dripgrpidx, created_at, created_user, updated_at, updated_user
+  </sql>
+    <select id="IrriName" resultType="java.lang.String">
+        SELECT
+        name
+        FROM rtudogrps
+        WHERE blockid=#{fieldid} and dripgrpidx=#{IrriId}
+    </select>
+    <select id="CountOfRtudogrps" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select
+    count(id)
+    from
+    rtudogrps
+    WHERE blockid=#{fieldid}
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from rtudogrps
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from rtudogrps
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.Rtudogrps">
+    insert into rtudogrps (id, did, blockid, 
+      name, maxdos, mm, mmm, 
+      hh, mhh, dd, mdd, 
+      mon, mmon, keepmins, 
+      kml, dripgrpidx, created_at, 
+      created_user, updated_at, updated_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{did,jdbcType=BIGINT}, #{blockid,jdbcType=BIGINT}, 
+      #{name,jdbcType=VARCHAR}, #{maxdos,jdbcType=INTEGER}, #{mm,jdbcType=INTEGER}, #{mmm,jdbcType=INTEGER}, 
+      #{hh,jdbcType=INTEGER}, #{mhh,jdbcType=INTEGER}, #{dd,jdbcType=INTEGER}, #{mdd,jdbcType=INTEGER}, 
+      #{mon,jdbcType=INTEGER}, #{mmon,jdbcType=INTEGER}, #{keepmins,jdbcType=INTEGER}, 
+      #{kml,jdbcType=VARCHAR}, #{dripgrpidx,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.Rtudogrps">
+        insert into rtudogrps
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="did != null">
+                did,
+            </if>
+            <if test="blockid != null">
+                blockid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="maxdos != null">
+                maxdos,
+            </if>
+            <if test="mm != null">
+                mm,
+            </if>
+            <if test="mmm != null">
+                mmm,
+            </if>
+            <if test="hh != null">
+                hh,
+            </if>
+            <if test="mhh != null">
+                mhh,
+            </if>
+            <if test="dd != null">
+                dd,
+            </if>
+            <if test="mdd != null">
+                mdd,
+            </if>
+            <if test="mon != null">
+                mon,
+            </if>
+            <if test="mmon != null">
+                mmon,
+            </if>
+            <if test="keepmins != null">
+                keepmins,
+            </if>
+            <if test="kml != null">
+                kml,
+            </if>
+            <if test="dripgrpidx != null">
+                dripgrpidx,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="createdUser != null">
+                created_user,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="updatedUser != null">
+                updated_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="did != null">
+                #{did,jdbcType=BIGINT},
+            </if>
+            <if test="blockid != null">
+                #{blockid,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="maxdos != null">
+                #{maxdos,jdbcType=INTEGER},
+            </if>
+            <if test="mm != null">
+                #{mm,jdbcType=INTEGER},
+            </if>
+            <if test="mmm != null">
+                #{mmm,jdbcType=INTEGER},
+            </if>
+            <if test="hh != null">
+                #{hh,jdbcType=INTEGER},
+            </if>
+            <if test="mhh != null">
+                #{mhh,jdbcType=INTEGER},
+            </if>
+            <if test="dd != null">
+                #{dd,jdbcType=INTEGER},
+            </if>
+            <if test="mdd != null">
+                #{mdd,jdbcType=INTEGER},
+            </if>
+            <if test="mon != null">
+                #{mon,jdbcType=INTEGER},
+            </if>
+            <if test="mmon != null">
+                #{mmon,jdbcType=INTEGER},
+            </if>
+            <if test="keepmins != null">
+                #{keepmins,jdbcType=INTEGER},
+            </if>
+            <if test="kml != null">
+                #{kml,jdbcType=VARCHAR},
+            </if>
+            <if test="dripgrpidx != null">
+                #{dripgrpidx,jdbcType=INTEGER},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.Rtudogrps">
+        update rtudogrps
+        <set>
+            <if test="did != null">
+                did = #{did,jdbcType=BIGINT},
+            </if>
+            <if test="blockid != null">
+                blockid = #{blockid,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="maxdos != null">
+                maxdos = #{maxdos,jdbcType=INTEGER},
+            </if>
+            <if test="mm != null">
+                mm = #{mm,jdbcType=INTEGER},
+            </if>
+            <if test="mmm != null">
+                mmm = #{mmm,jdbcType=INTEGER},
+            </if>
+            <if test="hh != null">
+                hh = #{hh,jdbcType=INTEGER},
+            </if>
+            <if test="mhh != null">
+                mhh = #{mhh,jdbcType=INTEGER},
+            </if>
+            <if test="dd != null">
+                dd = #{dd,jdbcType=INTEGER},
+            </if>
+            <if test="mdd != null">
+                mdd = #{mdd,jdbcType=INTEGER},
+            </if>
+            <if test="mon != null">
+                mon = #{mon,jdbcType=INTEGER},
+            </if>
+            <if test="mmon != null">
+                mmon = #{mmon,jdbcType=INTEGER},
+            </if>
+            <if test="keepmins != null">
+                keepmins = #{keepmins,jdbcType=INTEGER},
+            </if>
+            <if test="kml != null">
+                kml = #{kml,jdbcType=VARCHAR},
+            </if>
+            <if test="dripgrpidx != null">
+                dripgrpidx = #{dripgrpidx,jdbcType=INTEGER},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                created_user = #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                updated_user = #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.Rtudogrps">
+    update rtudogrps
+    set did = #{did,jdbcType=BIGINT},
+      blockid = #{blockid,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      maxdos = #{maxdos,jdbcType=INTEGER},
+      mm = #{mm,jdbcType=INTEGER},
+      mmm = #{mmm,jdbcType=INTEGER},
+      hh = #{hh,jdbcType=INTEGER},
+      mhh = #{mhh,jdbcType=INTEGER},
+      dd = #{dd,jdbcType=INTEGER},
+      mdd = #{mdd,jdbcType=INTEGER},
+      mon = #{mon,jdbcType=INTEGER},
+      mmon = #{mmon,jdbcType=INTEGER},
+      keepmins = #{keepmins,jdbcType=INTEGER},
+      kml = #{kml,jdbcType=VARCHAR},
+      dripgrpidx = #{dripgrpidx,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

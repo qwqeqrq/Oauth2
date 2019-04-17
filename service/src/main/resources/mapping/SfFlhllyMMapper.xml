@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfFlhllyMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfFlhllyM">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="FERT_TYPE" property="fertType" jdbcType="INTEGER"/>
+        <result column="FERT_NAME" property="fertName" jdbcType="VARCHAR"/>
+        <result column="FIELD_SITE" property="fieldSite" jdbcType="VARCHAR"/>
+        <result column="FERT_AN" property="fertAn" jdbcType="REAL"/>
+        <result column="FERT_AP" property="fertAp" jdbcType="REAL"/>
+        <result column="FERT_AK" property="fertAk" jdbcType="REAL"/>
+        <result column="USEEFFI_AN" property="useeffiAn" jdbcType="REAL"/>
+        <result column="USEEFFI_AP" property="useeffiAp" jdbcType="REAL"/>
+        <result column="USEEFFI_AK" property="useeffiAk" jdbcType="REAL"/>
+        <result column="CRP_STG_D" property="crpStgD" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, FERT_TYPE, FERT_NAME, FIELD_SITE, FERT_AN, FERT_AP, FERT_AK, USEEFFI_AN, USEEFFI_AP, 
+    USEEFFI_AK, CRP_STG_D
+  </sql>
+    <select id="selectCrpStgD" resultType="java.lang.Integer">
+        SELECT  DISTINCT CRP_STG_D FROM T_SF_FLHLLY_M limit 1
+    </select>
+    <select id="SelectFertType" resultMap="BaseResultMap">
+    SELECT *
+   FROM t_sf_flhlly_m
+   WHERE FERT_NAME=#{Fidk}
+   OR FERT_NAME=#{Fidn}
+   OR FERT_NAME=#{Fidp}
+   ORDER BY FERT_TYPE DESC
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_flhlly_m
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_sf_flhlly_m
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfFlhllyM">
+    insert into t_sf_flhlly_m (ID, FERT_TYPE, FERT_NAME, 
+      FIELD_SITE, FERT_AN, FERT_AP, 
+      FERT_AK, USEEFFI_AN, USEEFFI_AP, 
+      USEEFFI_AK, CRP_STG_D)
+    values (#{id,jdbcType=BIGINT}, #{fertType,jdbcType=INTEGER}, #{fertName,jdbcType=VARCHAR}, 
+      #{fieldSite,jdbcType=VARCHAR}, #{fertAn,jdbcType=REAL}, #{fertAp,jdbcType=REAL}, 
+      #{fertAk,jdbcType=REAL}, #{useeffiAn,jdbcType=REAL}, #{useeffiAp,jdbcType=REAL}, 
+      #{useeffiAk,jdbcType=REAL}, #{crpStgD,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfFlhllyM">
+        insert into t_sf_flhlly_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="fertType != null">
+                FERT_TYPE,
+            </if>
+            <if test="fertName != null">
+                FERT_NAME,
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE,
+            </if>
+            <if test="fertAn != null">
+                FERT_AN,
+            </if>
+            <if test="fertAp != null">
+                FERT_AP,
+            </if>
+            <if test="fertAk != null">
+                FERT_AK,
+            </if>
+            <if test="useeffiAn != null">
+                USEEFFI_AN,
+            </if>
+            <if test="useeffiAp != null">
+                USEEFFI_AP,
+            </if>
+            <if test="useeffiAk != null">
+                USEEFFI_AK,
+            </if>
+            <if test="crpStgD != null">
+                CRP_STG_D,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fertType != null">
+                #{fertType,jdbcType=INTEGER},
+            </if>
+            <if test="fertName != null">
+                #{fertName,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldSite != null">
+                #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="fertAn != null">
+                #{fertAn,jdbcType=REAL},
+            </if>
+            <if test="fertAp != null">
+                #{fertAp,jdbcType=REAL},
+            </if>
+            <if test="fertAk != null">
+                #{fertAk,jdbcType=REAL},
+            </if>
+            <if test="useeffiAn != null">
+                #{useeffiAn,jdbcType=REAL},
+            </if>
+            <if test="useeffiAp != null">
+                #{useeffiAp,jdbcType=REAL},
+            </if>
+            <if test="useeffiAk != null">
+                #{useeffiAk,jdbcType=REAL},
+            </if>
+            <if test="crpStgD != null">
+                #{crpStgD,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfFlhllyM">
+        update t_sf_flhlly_m
+        <set>
+            <if test="fertType != null">
+                FERT_TYPE = #{fertType,jdbcType=INTEGER},
+            </if>
+            <if test="fertName != null">
+                FERT_NAME = #{fertName,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="fertAn != null">
+                FERT_AN = #{fertAn,jdbcType=REAL},
+            </if>
+            <if test="fertAp != null">
+                FERT_AP = #{fertAp,jdbcType=REAL},
+            </if>
+            <if test="fertAk != null">
+                FERT_AK = #{fertAk,jdbcType=REAL},
+            </if>
+            <if test="useeffiAn != null">
+                USEEFFI_AN = #{useeffiAn,jdbcType=REAL},
+            </if>
+            <if test="useeffiAp != null">
+                USEEFFI_AP = #{useeffiAp,jdbcType=REAL},
+            </if>
+            <if test="useeffiAk != null">
+                USEEFFI_AK = #{useeffiAk,jdbcType=REAL},
+            </if>
+            <if test="crpStgD != null">
+                CRP_STG_D = #{crpStgD,jdbcType=INTEGER},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfFlhllyM">
+    update t_sf_flhlly_m
+    set FERT_TYPE = #{fertType,jdbcType=INTEGER},
+      FERT_NAME = #{fertName,jdbcType=VARCHAR},
+      FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+      FERT_AN = #{fertAn,jdbcType=REAL},
+      FERT_AP = #{fertAp,jdbcType=REAL},
+      FERT_AK = #{fertAk,jdbcType=REAL},
+      USEEFFI_AN = #{useeffiAn,jdbcType=REAL},
+      USEEFFI_AP = #{useeffiAp,jdbcType=REAL},
+      USEEFFI_AK = #{useeffiAk,jdbcType=REAL},
+      CRP_STG_D = #{crpStgD,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

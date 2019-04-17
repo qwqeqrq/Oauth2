@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.IrCrpStageMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.IrCrpStage">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="PID" property="pid" jdbcType="INTEGER"/>
+        <result column="CID" property="cid" jdbcType="INTEGER"/>
+        <result column="DID" property="did" jdbcType="INTEGER"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="VARCHAR"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="VARCHAR"/>
+        <result column="CRP_CNAME" property="crpCname" jdbcType="VARCHAR"/>
+        <result column="CRP_STG_ID" property="crpStgId" jdbcType="INTEGER"/>
+        <result column="CRP_STG_NAME" property="crpStgName" jdbcType="VARCHAR"/>
+        <result column="CRP_STG_D" property="crpStgD" jdbcType="INTEGER"/>
+        <result column="CRP_STG_DINI" property="crpStgDini" jdbcType="INTEGER"/>
+        <result column="CRP_STG_DEND" property="crpStgDend" jdbcType="INTEGER"/>
+        <result column="CRP_STG_ATINI" property="crpStgAtini" jdbcType="REAL"/>
+        <result column="CRP_STG_ATEND" property="crpStgAtend" jdbcType="REAL"/>
+        <result column="CRP_STG_STINI" property="crpStgStini" jdbcType="REAL"/>
+        <result column="CRP_STG_STEND" property="crpStgStend" jdbcType="REAL"/>
+        <result column="CRP_STG_HTINI" property="crpStgHtini" jdbcType="REAL"/>
+        <result column="CRP_STG_HTEND" property="crpStgHtend" jdbcType="REAL"/>
+        <result column="CRP_STG_LAIINI" property="crpStgLaiini" jdbcType="REAL"/>
+        <result column="CRP_STG_LAIEND" property="crpStgLaiend" jdbcType="REAL"/>
+        <result column="CRP_STG_RTDINI" property="crpStgRtdini" jdbcType="REAL"/>
+        <result column="CRP_STG_RTDEND" property="crpStgRtdend" jdbcType="REAL"/>
+        <result column="CRP_KCINI_JYZ" property="crpKciniJyz" jdbcType="REAL"/>
+        <result column="CRP_KCEND_JYZ" property="crpKcendJyz" jdbcType="REAL"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.second.service.BaseDao.IrCrpStageWithBLOBs" extends="BaseResultMap">
+        <result column="CRP_STG_CRT" property="crpStgCrt" jdbcType="LONGVARCHAR"/>
+        <result column="CRP_STG_MNG" property="crpStgMng" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, PID, CID, DID, FIELD_ID, CRP_VRT_ID, CRP_CNAME, CRP_STG_ID, CRP_STG_NAME, CRP_STG_D, 
+    CRP_STG_DINI, CRP_STG_DEND, CRP_STG_ATINI, CRP_STG_ATEND, CRP_STG_STINI, CRP_STG_STEND, 
+    CRP_STG_HTINI, CRP_STG_HTEND, CRP_STG_LAIINI, CRP_STG_LAIEND, CRP_STG_RTDINI, CRP_STG_RTDEND, 
+    CRP_KCINI_JYZ, CRP_KCEND_JYZ
+  </sql>
+    <sql id="Blob_Column_List">
+    CRP_STG_CRT, CRP_STG_MNG
+  </sql>
+    <select id="selectCrpStgIdByNow" resultType="java.lang.Integer">
+        SELECT CRP_STG_ID
+        FROM T_IR_CRP_STAGE
+        WHERE #{dg}>=CRP_STG_DINI AND CRP_STG_DEND>=#{dg} AND CRP_VRT_ID=#{vatid}
+    </select>
+    <select id="getCrpStage" resultType="java.lang.Integer">
+        SELECT MAX(CRP_STG_ID) FROM t_ir_crp_stage WHERE CRP_VRT_ID=#{vatid}
+    </select>
+    <select id="IrCrpStagelistWithoutParaOfFieldidAndDidAndCid" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_IR_CRP_STAGE
+        where pid =#{pid} and CRP_VRT_ID =#{vatid} and FIELD_ID is null and did is null and pid is null
+        order by CRP_STG_ID
+    </select>
+    <select id="IrCrpStagelistWithoutParaOfFieldidAndDid" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_IR_CRP_STAGE
+        where cid =#{cid} and CRP_VRT_ID =#{vatid} and FIELD_ID is null and did is null
+        order by CRP_STG_ID
+    </select>
+    <select id="IrCrpStagelistWithoutParaOfFieldid" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_IR_CRP_STAGE
+        where did =#{did} and CRP_VRT_ID =#{vatid} and FIELD_ID is null
+        order by CRP_STG_ID
+    </select>
+    <select id="IrCrpStagelist" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from T_IR_CRP_STAGE
+        where FIELD_ID =#{fieldid}
+        and CRP_VRT_ID =#{vatid}
+        order by CRP_STG_ID
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_ir_crp_stage
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_ir_crp_stage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.IrCrpStageWithBLOBs">
+    insert into t_ir_crp_stage (id, PID, CID, 
+      DID, FIELD_ID, CRP_VRT_ID, 
+      CRP_CNAME, CRP_STG_ID, CRP_STG_NAME, 
+      CRP_STG_D, CRP_STG_DINI, CRP_STG_DEND, 
+      CRP_STG_ATINI, CRP_STG_ATEND, CRP_STG_STINI, 
+      CRP_STG_STEND, CRP_STG_HTINI, CRP_STG_HTEND, 
+      CRP_STG_LAIINI, CRP_STG_LAIEND, CRP_STG_RTDINI, 
+      CRP_STG_RTDEND, CRP_KCINI_JYZ, CRP_KCEND_JYZ, 
+      CRP_STG_CRT, CRP_STG_MNG)
+    values (#{id,jdbcType=BIGINT}, #{pid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
+      #{did,jdbcType=INTEGER}, #{fieldId,jdbcType=VARCHAR}, #{crpVrtId,jdbcType=VARCHAR}, 
+      #{crpCname,jdbcType=VARCHAR}, #{crpStgId,jdbcType=INTEGER}, #{crpStgName,jdbcType=VARCHAR}, 
+      #{crpStgD,jdbcType=INTEGER}, #{crpStgDini,jdbcType=INTEGER}, #{crpStgDend,jdbcType=INTEGER}, 
+      #{crpStgAtini,jdbcType=REAL}, #{crpStgAtend,jdbcType=REAL}, #{crpStgStini,jdbcType=REAL}, 
+      #{crpStgStend,jdbcType=REAL}, #{crpStgHtini,jdbcType=REAL}, #{crpStgHtend,jdbcType=REAL}, 
+      #{crpStgLaiini,jdbcType=REAL}, #{crpStgLaiend,jdbcType=REAL}, #{crpStgRtdini,jdbcType=REAL}, 
+      #{crpStgRtdend,jdbcType=REAL}, #{crpKciniJyz,jdbcType=REAL}, #{crpKcendJyz,jdbcType=REAL}, 
+      #{crpStgCrt,jdbcType=LONGVARCHAR}, #{crpStgMng,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.IrCrpStageWithBLOBs">
+        insert into t_ir_crp_stage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="pid != null">
+                PID,
+            </if>
+            <if test="cid != null">
+                CID,
+            </if>
+            <if test="did != null">
+                DID,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="crpCname != null">
+                CRP_CNAME,
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID,
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME,
+            </if>
+            <if test="crpStgD != null">
+                CRP_STG_D,
+            </if>
+            <if test="crpStgDini != null">
+                CRP_STG_DINI,
+            </if>
+            <if test="crpStgDend != null">
+                CRP_STG_DEND,
+            </if>
+            <if test="crpStgAtini != null">
+                CRP_STG_ATINI,
+            </if>
+            <if test="crpStgAtend != null">
+                CRP_STG_ATEND,
+            </if>
+            <if test="crpStgStini != null">
+                CRP_STG_STINI,
+            </if>
+            <if test="crpStgStend != null">
+                CRP_STG_STEND,
+            </if>
+            <if test="crpStgHtini != null">
+                CRP_STG_HTINI,
+            </if>
+            <if test="crpStgHtend != null">
+                CRP_STG_HTEND,
+            </if>
+            <if test="crpStgLaiini != null">
+                CRP_STG_LAIINI,
+            </if>
+            <if test="crpStgLaiend != null">
+                CRP_STG_LAIEND,
+            </if>
+            <if test="crpStgRtdini != null">
+                CRP_STG_RTDINI,
+            </if>
+            <if test="crpStgRtdend != null">
+                CRP_STG_RTDEND,
+            </if>
+            <if test="crpKciniJyz != null">
+                CRP_KCINI_JYZ,
+            </if>
+            <if test="crpKcendJyz != null">
+                CRP_KCEND_JYZ,
+            </if>
+            <if test="crpStgCrt != null">
+                CRP_STG_CRT,
+            </if>
+            <if test="crpStgMng != null">
+                CRP_STG_MNG,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="cid != null">
+                #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="did != null">
+                #{did,jdbcType=INTEGER},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=VARCHAR},
+            </if>
+            <if test="crpCname != null">
+                #{crpCname,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgName != null">
+                #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgD != null">
+                #{crpStgD,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgDini != null">
+                #{crpStgDini,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgDend != null">
+                #{crpStgDend,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgAtini != null">
+                #{crpStgAtini,jdbcType=REAL},
+            </if>
+            <if test="crpStgAtend != null">
+                #{crpStgAtend,jdbcType=REAL},
+            </if>
+            <if test="crpStgStini != null">
+                #{crpStgStini,jdbcType=REAL},
+            </if>
+            <if test="crpStgStend != null">
+                #{crpStgStend,jdbcType=REAL},
+            </if>
+            <if test="crpStgHtini != null">
+                #{crpStgHtini,jdbcType=REAL},
+            </if>
+            <if test="crpStgHtend != null">
+                #{crpStgHtend,jdbcType=REAL},
+            </if>
+            <if test="crpStgLaiini != null">
+                #{crpStgLaiini,jdbcType=REAL},
+            </if>
+            <if test="crpStgLaiend != null">
+                #{crpStgLaiend,jdbcType=REAL},
+            </if>
+            <if test="crpStgRtdini != null">
+                #{crpStgRtdini,jdbcType=REAL},
+            </if>
+            <if test="crpStgRtdend != null">
+                #{crpStgRtdend,jdbcType=REAL},
+            </if>
+            <if test="crpKciniJyz != null">
+                #{crpKciniJyz,jdbcType=REAL},
+            </if>
+            <if test="crpKcendJyz != null">
+                #{crpKcendJyz,jdbcType=REAL},
+            </if>
+            <if test="crpStgCrt != null">
+                #{crpStgCrt,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="crpStgMng != null">
+                #{crpStgMng,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.IrCrpStageWithBLOBs">
+        update t_ir_crp_stage
+        <set>
+            <if test="pid != null">
+                PID = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="cid != null">
+                CID = #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="did != null">
+                DID = #{did,jdbcType=INTEGER},
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=VARCHAR},
+            </if>
+            <if test="crpCname != null">
+                CRP_CNAME = #{crpCname,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgD != null">
+                CRP_STG_D = #{crpStgD,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgDini != null">
+                CRP_STG_DINI = #{crpStgDini,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgDend != null">
+                CRP_STG_DEND = #{crpStgDend,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgAtini != null">
+                CRP_STG_ATINI = #{crpStgAtini,jdbcType=REAL},
+            </if>
+            <if test="crpStgAtend != null">
+                CRP_STG_ATEND = #{crpStgAtend,jdbcType=REAL},
+            </if>
+            <if test="crpStgStini != null">
+                CRP_STG_STINI = #{crpStgStini,jdbcType=REAL},
+            </if>
+            <if test="crpStgStend != null">
+                CRP_STG_STEND = #{crpStgStend,jdbcType=REAL},
+            </if>
+            <if test="crpStgHtini != null">
+                CRP_STG_HTINI = #{crpStgHtini,jdbcType=REAL},
+            </if>
+            <if test="crpStgHtend != null">
+                CRP_STG_HTEND = #{crpStgHtend,jdbcType=REAL},
+            </if>
+            <if test="crpStgLaiini != null">
+                CRP_STG_LAIINI = #{crpStgLaiini,jdbcType=REAL},
+            </if>
+            <if test="crpStgLaiend != null">
+                CRP_STG_LAIEND = #{crpStgLaiend,jdbcType=REAL},
+            </if>
+            <if test="crpStgRtdini != null">
+                CRP_STG_RTDINI = #{crpStgRtdini,jdbcType=REAL},
+            </if>
+            <if test="crpStgRtdend != null">
+                CRP_STG_RTDEND = #{crpStgRtdend,jdbcType=REAL},
+            </if>
+            <if test="crpKciniJyz != null">
+                CRP_KCINI_JYZ = #{crpKciniJyz,jdbcType=REAL},
+            </if>
+            <if test="crpKcendJyz != null">
+                CRP_KCEND_JYZ = #{crpKcendJyz,jdbcType=REAL},
+            </if>
+            <if test="crpStgCrt != null">
+                CRP_STG_CRT = #{crpStgCrt,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="crpStgMng != null">
+                CRP_STG_MNG = #{crpStgMng,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.second.service.BaseDao.IrCrpStageWithBLOBs">
+    update t_ir_crp_stage
+    set PID = #{pid,jdbcType=INTEGER},
+      CID = #{cid,jdbcType=INTEGER},
+      DID = #{did,jdbcType=INTEGER},
+      FIELD_ID = #{fieldId,jdbcType=VARCHAR},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=VARCHAR},
+      CRP_CNAME = #{crpCname,jdbcType=VARCHAR},
+      CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+      CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+      CRP_STG_D = #{crpStgD,jdbcType=INTEGER},
+      CRP_STG_DINI = #{crpStgDini,jdbcType=INTEGER},
+      CRP_STG_DEND = #{crpStgDend,jdbcType=INTEGER},
+      CRP_STG_ATINI = #{crpStgAtini,jdbcType=REAL},
+      CRP_STG_ATEND = #{crpStgAtend,jdbcType=REAL},
+      CRP_STG_STINI = #{crpStgStini,jdbcType=REAL},
+      CRP_STG_STEND = #{crpStgStend,jdbcType=REAL},
+      CRP_STG_HTINI = #{crpStgHtini,jdbcType=REAL},
+      CRP_STG_HTEND = #{crpStgHtend,jdbcType=REAL},
+      CRP_STG_LAIINI = #{crpStgLaiini,jdbcType=REAL},
+      CRP_STG_LAIEND = #{crpStgLaiend,jdbcType=REAL},
+      CRP_STG_RTDINI = #{crpStgRtdini,jdbcType=REAL},
+      CRP_STG_RTDEND = #{crpStgRtdend,jdbcType=REAL},
+      CRP_KCINI_JYZ = #{crpKciniJyz,jdbcType=REAL},
+      CRP_KCEND_JYZ = #{crpKcendJyz,jdbcType=REAL},
+      CRP_STG_CRT = #{crpStgCrt,jdbcType=LONGVARCHAR},
+      CRP_STG_MNG = #{crpStgMng,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.IrCrpStage">
+    update t_ir_crp_stage
+    set PID = #{pid,jdbcType=INTEGER},
+      CID = #{cid,jdbcType=INTEGER},
+      DID = #{did,jdbcType=INTEGER},
+      FIELD_ID = #{fieldId,jdbcType=VARCHAR},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=VARCHAR},
+      CRP_CNAME = #{crpCname,jdbcType=VARCHAR},
+      CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+      CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+      CRP_STG_D = #{crpStgD,jdbcType=INTEGER},
+      CRP_STG_DINI = #{crpStgDini,jdbcType=INTEGER},
+      CRP_STG_DEND = #{crpStgDend,jdbcType=INTEGER},
+      CRP_STG_ATINI = #{crpStgAtini,jdbcType=REAL},
+      CRP_STG_ATEND = #{crpStgAtend,jdbcType=REAL},
+      CRP_STG_STINI = #{crpStgStini,jdbcType=REAL},
+      CRP_STG_STEND = #{crpStgStend,jdbcType=REAL},
+      CRP_STG_HTINI = #{crpStgHtini,jdbcType=REAL},
+      CRP_STG_HTEND = #{crpStgHtend,jdbcType=REAL},
+      CRP_STG_LAIINI = #{crpStgLaiini,jdbcType=REAL},
+      CRP_STG_LAIEND = #{crpStgLaiend,jdbcType=REAL},
+      CRP_STG_RTDINI = #{crpStgRtdini,jdbcType=REAL},
+      CRP_STG_RTDEND = #{crpStgRtdend,jdbcType=REAL},
+      CRP_KCINI_JYZ = #{crpKciniJyz,jdbcType=REAL},
+      CRP_KCEND_JYZ = #{crpKcendJyz,jdbcType=REAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

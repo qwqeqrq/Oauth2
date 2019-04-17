@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.CropPlantMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.CropPlant">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="pname" property="pname" jdbcType="VARCHAR"/>
+        <result column="cname" property="cname" jdbcType="VARCHAR"/>
+        <result column="dname" property="dname" jdbcType="VARCHAR"/>
+        <result column="proname" property="proname" jdbcType="VARCHAR"/>
+        <result column="rname" property="rname" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="BIGINT"/>
+        <result column="cid" property="cid" jdbcType="BIGINT"/>
+        <result column="did" property="did" jdbcType="BIGINT"/>
+        <result column="proid" property="proid" jdbcType="BIGINT"/>
+        <result column="rid" property="rid" jdbcType="BIGINT"/>
+        <result column="varietyId" property="varietyid" jdbcType="BIGINT"/>
+        <result column="cropId" property="cropid" jdbcType="BIGINT"/>
+        <result column="area" property="area" jdbcType="REAL"/>
+        <result column="startTime" property="starttime" jdbcType="DATE"/>
+        <result column="endTime" property="endtime" jdbcType="DATE"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_user" property="updatedUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, pname, cname, dname, proname, rname, pid, cid, did, proid, rid, varietyId, cropId,
+    area, startTime, endTime, created_at, created_user, updated_at, updated_user
+  </sql>
+    <select id="endtime" resultType="java.lang.String">
+    SELECT endTime
+    from crop_plant
+    where rid=#{fieldid} and varietyId=#{vatid}
+    order by startTime DESC
+    limit 1
+    </select>
+    <select id="selectArea" resultType="java.lang.String">
+        SELECT area
+        FROM crop_plant WHERE rid=#{fieldid}
+    </select>
+    <select id="starttime" resultType="java.lang.String">
+    SELECT startTime
+    from crop_plant
+    where rid=#{fieldid} and varietyId=#{vatid}
+    order by startTime DESC
+    limit 1
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from crop_plant
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from crop_plant
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.CropPlant">
+    insert into crop_plant (id, pname, cname, 
+      dname, proname, rname, 
+      pid, cid, did, proid, 
+      rid, varietyId, cropId, 
+      area, startTime, endTime, created_at, 
+      created_user, updated_at, updated_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{pname,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR}, 
+      #{dname,jdbcType=VARCHAR}, #{proname,jdbcType=VARCHAR}, #{rname,jdbcType=VARCHAR}, 
+      #{pid,jdbcType=BIGINT}, #{cid,jdbcType=BIGINT}, #{did,jdbcType=BIGINT}, #{proid,jdbcType=BIGINT}, 
+      #{rid,jdbcType=BIGINT}, #{varietyid,jdbcType=BIGINT}, #{cropid,jdbcType=BIGINT}, 
+      #{area,jdbcType=REAL}, #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.CropPlant">
+        insert into crop_plant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="pname != null">
+                pname,
+            </if>
+            <if test="cname != null">
+                cname,
+            </if>
+            <if test="dname != null">
+                dname,
+            </if>
+            <if test="proname != null">
+                proname,
+            </if>
+            <if test="rname != null">
+                rname,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="cid != null">
+                cid,
+            </if>
+            <if test="did != null">
+                did,
+            </if>
+            <if test="proid != null">
+                proid,
+            </if>
+            <if test="rid != null">
+                rid,
+            </if>
+            <if test="varietyid != null">
+                varietyId,
+            </if>
+            <if test="cropid != null">
+                cropId,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="starttime != null">
+                startTime,
+            </if>
+            <if test="endtime != null">
+                endTime,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="createdUser != null">
+                created_user,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="updatedUser != null">
+                updated_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pname != null">
+                #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="cname != null">
+                #{cname,jdbcType=VARCHAR},
+            </if>
+            <if test="dname != null">
+                #{dname,jdbcType=VARCHAR},
+            </if>
+            <if test="proname != null">
+                #{proname,jdbcType=VARCHAR},
+            </if>
+            <if test="rname != null">
+                #{rname,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="cid != null">
+                #{cid,jdbcType=BIGINT},
+            </if>
+            <if test="did != null">
+                #{did,jdbcType=BIGINT},
+            </if>
+            <if test="proid != null">
+                #{proid,jdbcType=BIGINT},
+            </if>
+            <if test="rid != null">
+                #{rid,jdbcType=BIGINT},
+            </if>
+            <if test="varietyid != null">
+                #{varietyid,jdbcType=BIGINT},
+            </if>
+            <if test="cropid != null">
+                #{cropid,jdbcType=BIGINT},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=REAL},
+            </if>
+            <if test="starttime != null">
+                #{starttime,jdbcType=DATE},
+            </if>
+            <if test="endtime != null">
+                #{endtime,jdbcType=DATE},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.CropPlant">
+        update crop_plant
+        <set>
+            <if test="pname != null">
+                pname = #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="cname != null">
+                cname = #{cname,jdbcType=VARCHAR},
+            </if>
+            <if test="dname != null">
+                dname = #{dname,jdbcType=VARCHAR},
+            </if>
+            <if test="proname != null">
+                proname = #{proname,jdbcType=VARCHAR},
+            </if>
+            <if test="rname != null">
+                rname = #{rname,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=BIGINT},
+            </if>
+            <if test="did != null">
+                did = #{did,jdbcType=BIGINT},
+            </if>
+            <if test="proid != null">
+                proid = #{proid,jdbcType=BIGINT},
+            </if>
+            <if test="rid != null">
+                rid = #{rid,jdbcType=BIGINT},
+            </if>
+            <if test="varietyid != null">
+                varietyId = #{varietyid,jdbcType=BIGINT},
+            </if>
+            <if test="cropid != null">
+                cropId = #{cropid,jdbcType=BIGINT},
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=REAL},
+            </if>
+            <if test="starttime != null">
+                startTime = #{starttime,jdbcType=DATE},
+            </if>
+            <if test="endtime != null">
+                endTime = #{endtime,jdbcType=DATE},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                created_user = #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                updated_user = #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.CropPlant">
+    update crop_plant
+    set pname = #{pname,jdbcType=VARCHAR},
+      cname = #{cname,jdbcType=VARCHAR},
+      dname = #{dname,jdbcType=VARCHAR},
+      proname = #{proname,jdbcType=VARCHAR},
+      rname = #{rname,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=BIGINT},
+      cid = #{cid,jdbcType=BIGINT},
+      did = #{did,jdbcType=BIGINT},
+      proid = #{proid,jdbcType=BIGINT},
+      rid = #{rid,jdbcType=BIGINT},
+      varietyId = #{varietyid,jdbcType=BIGINT},
+      cropId = #{cropid,jdbcType=BIGINT},
+      area = #{area,jdbcType=REAL},
+      startTime = #{starttime,jdbcType=DATE},
+      endTime = #{endtime,jdbcType=DATE},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

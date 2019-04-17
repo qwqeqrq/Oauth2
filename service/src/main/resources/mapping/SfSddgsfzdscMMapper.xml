@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfSddgsfzdscMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfSddgsfzdscM">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="CRP_STG_NAME" property="crpStgName" jdbcType="VARCHAR"/>
+        <result column="CRP_STG_ID" property="crpStgId" jdbcType="INTEGER"/>
+        <result column="FERT_I_TIMES" property="fertITimes" jdbcType="INTEGER"/>
+        <result column="CRP_ETAREAL_DATE" property="crpEtarealDate" jdbcType="VARCHAR"/>
+        <result column="FAN_DI" property="fanDi" jdbcType="REAL"/>
+        <result column="FAP_DI" property="fapDi" jdbcType="REAL"/>
+        <result column="FAK_DI" property="fakDi" jdbcType="REAL"/>
+        <result column="FAN_DRIP_BASIC" property="fanDripBasic" jdbcType="REAL"/>
+        <result column="FAP_DRIP_BASIC" property="fapDripBasic" jdbcType="REAL"/>
+        <result column="FAK_DRIP_BASIC" property="fakDripBasic" jdbcType="REAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, FIELD_ID, CRP_VRT_ID, CRP_STG_NAME, CRP_STG_ID, FERT_I_TIMES, CRP_ETAREAL_DATE, 
+    FAN_DI, FAP_DI, FAK_DI, FAN_DRIP_BASIC, FAP_DRIP_BASIC, FAK_DRIP_BASIC
+  </sql>
+    <select id="selectBottomFert" resultType="java.lang.String">
+        SELECT DISTINCT CONCAT_WS(',',IFNULL(FAN_DRIP_BASIC,0),IFNULL(FAP_DRIP_BASIC,0),IFNULL(FAK_DRIP_BASIC,0))
+        FROM T_SF_SDDGSFZDSC_M
+        WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid}
+    </select>
+    <select id="FertPlan" resultType="java.lang.String">
+       SELECT DISTINCT CONCAT_WS(',',IFNULL(FAN_DI,0),IFNULL(FAP_DI,0),IFNULL(FAK_DI,0))
+       FROM T_SF_SDDGSFZDSC_M
+       WHERE FIELD_ID=#{fieldid}
+       AND CRP_VRT_ID=#{vatid}  AND CRP_STG_ID=#{i} AND CRP_ETAREAL_DATE=#{date}
+    </select>
+    <select id="RecordCount" resultType="java.lang.Integer">
+    select count(1) from t_sf_sddgsfzdsc_m
+    where field_id=#{fieldid} and crp_vrt_id=#{vatid}
+    and crp_stg_id=#{i} and crp_etareal_date=#{date}
+  </select>
+    <select id="SelectId" resultType="java.lang.Long">
+        select id from t_sf_sddgsfzdsc_m
+        where field_id=#{fieldid} and crp_vrt_id=#{vatid}
+        and crp_stg_id=#{i} and crp_etareal_date=#{date}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_sddgsfzdsc_m
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_sf_sddgsfzdsc_m
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfSddgsfzdscM">
+    insert into t_sf_sddgsfzdsc_m (id, FIELD_ID, CRP_VRT_ID, 
+      CRP_STG_NAME, CRP_STG_ID, FERT_I_TIMES, 
+      CRP_ETAREAL_DATE, FAN_DI, FAP_DI, 
+      FAK_DI, FAN_DRIP_BASIC, FAP_DRIP_BASIC, 
+      FAK_DRIP_BASIC)
+    values (#{id,jdbcType=INTEGER}, #{fieldId,jdbcType=BIGINT}, #{crpVrtId,jdbcType=BIGINT}, 
+      #{crpStgName,jdbcType=VARCHAR}, #{crpStgId,jdbcType=INTEGER}, #{fertITimes,jdbcType=INTEGER}, 
+      #{crpEtarealDate,jdbcType=DATE}, #{fanDi,jdbcType=REAL}, #{fapDi,jdbcType=REAL}, 
+      #{fakDi,jdbcType=REAL}, #{fanDripBasic,jdbcType=REAL}, #{fapDripBasic,jdbcType=REAL}, 
+      #{fakDripBasic,jdbcType=REAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfSddgsfzdscM">
+        insert into t_sf_sddgsfzdsc_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME,
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID,
+            </if>
+            <if test="fertITimes != null">
+                FERT_I_TIMES,
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE,
+            </if>
+            <if test="fanDi != null">
+                FAN_DI,
+            </if>
+            <if test="fapDi != null">
+                FAP_DI,
+            </if>
+            <if test="fakDi != null">
+                FAK_DI,
+            </if>
+            <if test="fanDripBasic != null">
+                FAN_DRIP_BASIC,
+            </if>
+            <if test="fapDripBasic != null">
+                FAP_DRIP_BASIC,
+            </if>
+            <if test="fakDripBasic != null">
+                FAK_DRIP_BASIC,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpStgName != null">
+                #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="fertITimes != null">
+                #{fertITimes,jdbcType=INTEGER},
+            </if>
+            <if test="crpEtarealDate != null">
+                #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="fanDi != null">
+                #{fanDi,jdbcType=REAL},
+            </if>
+            <if test="fapDi != null">
+                #{fapDi,jdbcType=REAL},
+            </if>
+            <if test="fakDi != null">
+                #{fakDi,jdbcType=REAL},
+            </if>
+            <if test="fanDripBasic != null">
+                #{fanDripBasic,jdbcType=REAL},
+            </if>
+            <if test="fapDripBasic != null">
+                #{fapDripBasic,jdbcType=REAL},
+            </if>
+            <if test="fakDripBasic != null">
+                #{fakDripBasic,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfSddgsfzdscM">
+        update t_sf_sddgsfzdsc_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="fertITimes != null">
+                FERT_I_TIMES = #{fertITimes,jdbcType=INTEGER},
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="fanDi != null">
+                FAN_DI = #{fanDi,jdbcType=REAL},
+            </if>
+            <if test="fapDi != null">
+                FAP_DI = #{fapDi,jdbcType=REAL},
+            </if>
+            <if test="fakDi != null">
+                FAK_DI = #{fakDi,jdbcType=REAL},
+            </if>
+            <if test="fanDripBasic != null">
+                FAN_DRIP_BASIC = #{fanDripBasic,jdbcType=REAL},
+            </if>
+            <if test="fapDripBasic != null">
+                FAP_DRIP_BASIC = #{fapDripBasic,jdbcType=REAL},
+            </if>
+            <if test="fakDripBasic != null">
+                FAK_DRIP_BASIC = #{fakDripBasic,jdbcType=REAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfSddgsfzdscM">
+    update t_sf_sddgsfzdsc_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+      CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+      FERT_I_TIMES = #{fertITimes,jdbcType=INTEGER},
+      CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+      FAN_DI = #{fanDi,jdbcType=REAL},
+      FAP_DI = #{fapDi,jdbcType=REAL},
+      FAK_DI = #{fakDi,jdbcType=REAL},
+      FAN_DRIP_BASIC = #{fanDripBasic,jdbcType=REAL},
+      FAP_DRIP_BASIC = #{fapDripBasic,jdbcType=REAL},
+      FAK_DRIP_BASIC = #{fakDripBasic,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

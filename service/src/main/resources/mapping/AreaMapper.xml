@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.AreaMapper" >
+  <resultMap id="BaseResultMap" type="com.second.service.BaseDao.Area" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="gradetype" property="gradetype" jdbcType="INTEGER" />
+    <result column="fatherid" property="fatherid" jdbcType="BIGINT" />
+    <result column="aname" property="aname" jdbcType="VARCHAR" />
+    <result column="atype" property="atype" jdbcType="INTEGER" />
+    <result column="lat" property="lat" jdbcType="DOUBLE" />
+    <result column="lng" property="lng" jdbcType="DOUBLE" />
+    <result column="points" property="points" jdbcType="VARCHAR" />
+    <result column="radius" property="radius" jdbcType="INTEGER" />
+    <result column="color" property="color" jdbcType="INTEGER" />
+    <result column="projinfo" property="projinfo" jdbcType="VARCHAR" />
+    <result column="abbreviation" property="abbreviation" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="REAL" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="created_user" property="createdUser" jdbcType="VARCHAR" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="updated_user" property="updatedUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, number, type, gradetype, fatherid, aname, atype, lat, lng, points, radius, color, 
+    projinfo, abbreviation, area, created_at, created_user, updated_at, updated_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from area
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from area
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.second.service.BaseDao.Area" >
+    insert into area (id, number, type, 
+      gradetype, fatherid, aname, 
+      atype, lat, lng, points, 
+      radius, color, projinfo, 
+      abbreviation, area, created_at, 
+      created_user, updated_at, updated_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{number,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{gradetype,jdbcType=INTEGER}, #{fatherid,jdbcType=BIGINT}, #{aname,jdbcType=VARCHAR}, 
+      #{atype,jdbcType=INTEGER}, #{lat,jdbcType=DOUBLE}, #{lng,jdbcType=DOUBLE}, #{points,jdbcType=VARCHAR}, 
+      #{radius,jdbcType=INTEGER}, #{color,jdbcType=INTEGER}, #{projinfo,jdbcType=VARCHAR}, 
+      #{abbreviation,jdbcType=VARCHAR}, #{area,jdbcType=REAL}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.second.service.BaseDao.Area" >
+    insert into area
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="gradetype != null" >
+        gradetype,
+      </if>
+      <if test="fatherid != null" >
+        fatherid,
+      </if>
+      <if test="aname != null" >
+        aname,
+      </if>
+      <if test="atype != null" >
+        atype,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+      <if test="lng != null" >
+        lng,
+      </if>
+      <if test="points != null" >
+        points,
+      </if>
+      <if test="radius != null" >
+        radius,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="projinfo != null" >
+        projinfo,
+      </if>
+      <if test="abbreviation != null" >
+        abbreviation,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="createdUser != null" >
+        created_user,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="updatedUser != null" >
+        updated_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="gradetype != null" >
+        #{gradetype,jdbcType=INTEGER},
+      </if>
+      <if test="fatherid != null" >
+        #{fatherid,jdbcType=BIGINT},
+      </if>
+      <if test="aname != null" >
+        #{aname,jdbcType=VARCHAR},
+      </if>
+      <if test="atype != null" >
+        #{atype,jdbcType=INTEGER},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=DOUBLE},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=VARCHAR},
+      </if>
+      <if test="radius != null" >
+        #{radius,jdbcType=INTEGER},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=INTEGER},
+      </if>
+      <if test="projinfo != null" >
+        #{projinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="abbreviation != null" >
+        #{abbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=REAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.Area" >
+    update area
+    <set >
+      <if test="number != null" >
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="gradetype != null" >
+        gradetype = #{gradetype,jdbcType=INTEGER},
+      </if>
+      <if test="fatherid != null" >
+        fatherid = #{fatherid,jdbcType=BIGINT},
+      </if>
+      <if test="aname != null" >
+        aname = #{aname,jdbcType=VARCHAR},
+      </if>
+      <if test="atype != null" >
+        atype = #{atype,jdbcType=INTEGER},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="lng != null" >
+        lng = #{lng,jdbcType=DOUBLE},
+      </if>
+      <if test="points != null" >
+        points = #{points,jdbcType=VARCHAR},
+      </if>
+      <if test="radius != null" >
+        radius = #{radius,jdbcType=INTEGER},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=INTEGER},
+      </if>
+      <if test="projinfo != null" >
+        projinfo = #{projinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="abbreviation != null" >
+        abbreviation = #{abbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=REAL},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.Area" >
+    update area
+    set number = #{number,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      gradetype = #{gradetype,jdbcType=INTEGER},
+      fatherid = #{fatherid,jdbcType=BIGINT},
+      aname = #{aname,jdbcType=VARCHAR},
+      atype = #{atype,jdbcType=INTEGER},
+      lat = #{lat,jdbcType=DOUBLE},
+      lng = #{lng,jdbcType=DOUBLE},
+      points = #{points,jdbcType=VARCHAR},
+      radius = #{radius,jdbcType=INTEGER},
+      color = #{color,jdbcType=INTEGER},
+      projinfo = #{projinfo,jdbcType=VARCHAR},
+      abbreviation = #{abbreviation,jdbcType=VARCHAR},
+      area = #{area,jdbcType=REAL},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

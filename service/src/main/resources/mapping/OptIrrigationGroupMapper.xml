@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.OptIrrigationGroupMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.OptIrrigationGroup">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="planid" property="planid" jdbcType="BIGINT"/>
+        <result column="irrigationid" property="irrigationid" jdbcType="BIGINT"/>
+        <result column="ruleid" property="ruleid" jdbcType="BIGINT"/>
+        <result column="optindex" property="optindex" jdbcType="INTEGER"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_user" property="updatedUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, planid, irrigationid, ruleid, optindex, created_at, created_user, updated_at, 
+    updated_user
+  </sql>
+    <select id="IrriId" resultType="java.lang.Integer">
+    SELECT
+    A.optindex
+    FROM opt_irrigation_group AS A, irrigation_plan_working AS B, rtudogrps AS c
+    WHERE A.planid=B.id
+    AND B.blockid=#{fieldid}
+    AND A.irrigationid=c.id
+    AND c.blockid=#{fieldid}
+    and c.dripgrpidx=#{i}
+    and a.planid=#{PlanId}
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        selecti
+        <include refid="Base_Column_List"/>
+        from opt_irrigation_group
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from opt_irrigation_group
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.OptIrrigationGroup">
+    insert into opt_irrigation_group (id, planid, irrigationid, 
+      ruleid, optindex, created_at, 
+      created_user, updated_at, updated_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{planid,jdbcType=BIGINT}, #{irrigationid,jdbcType=BIGINT}, 
+      #{ruleid,jdbcType=BIGINT}, #{optindex,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.OptIrrigationGroup">
+        insert into opt_irrigation_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="planid != null">
+                planid,
+            </if>
+            <if test="irrigationid != null">
+                irrigationid,
+            </if>
+            <if test="ruleid != null">
+                ruleid,
+            </if>
+            <if test="optindex != null">
+                optindex,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="createdUser != null">
+                created_user,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="updatedUser != null">
+                updated_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="planid != null">
+                #{planid,jdbcType=BIGINT},
+            </if>
+            <if test="irrigationid != null">
+                #{irrigationid,jdbcType=BIGINT},
+            </if>
+            <if test="ruleid != null">
+                #{ruleid,jdbcType=BIGINT},
+            </if>
+            <if test="optindex != null">
+                #{optindex,jdbcType=INTEGER},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.OptIrrigationGroup">
+        update opt_irrigation_group
+        <set>
+            <if test="planid != null">
+                planid = #{planid,jdbcType=BIGINT},
+            </if>
+            <if test="irrigationid != null">
+                irrigationid = #{irrigationid,jdbcType=BIGINT},
+            </if>
+            <if test="ruleid != null">
+                ruleid = #{ruleid,jdbcType=BIGINT},
+            </if>
+            <if test="optindex != null">
+                optindex = #{optindex,jdbcType=INTEGER},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                created_user = #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                updated_user = #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.OptIrrigationGroup">
+    update opt_irrigation_group
+    set planid = #{planid,jdbcType=BIGINT},
+      irrigationid = #{irrigationid,jdbcType=BIGINT},
+      ruleid = #{ruleid,jdbcType=BIGINT},
+      optindex = #{optindex,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.IrrigationPlanWorkingMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.IrrigationPlanWorking">
+        <id column="blockid" property="blockid" jdbcType="BIGINT"/>
+        <result column="deviceid" property="deviceid" jdbcType="BIGINT"/>
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="pname" property="pname" jdbcType="VARCHAR"/>
+        <result column="preid" property="preid" jdbcType="BIGINT"/>
+        <result column="pinterval" property="pinterval" jdbcType="INTEGER"/>
+        <result column="fertilization" property="fertilization" jdbcType="BIGINT"/>
+        <result column="pumpset" property="pumpset" jdbcType="VARCHAR"/>
+        <result column="closingdown" property="closingdown" jdbcType="VARCHAR"/>
+        <result column="temperature" property="temperature" jdbcType="REAL"/>
+        <result column="waittime" property="waittime" jdbcType="INTEGER"/>
+        <result column="fertilizertime" property="fertilizertime" jdbcType="INTEGER"/>
+        <result column="timeflg" property="timeflg" jdbcType="TINYINT"/>
+        <result column="runhour" property="runhour" jdbcType="TINYINT"/>
+        <result column="runminite" property="runminite" jdbcType="TINYINT"/>
+        <result column="mon" property="mon" jdbcType="TINYINT"/>
+        <result column="tuesflg" property="tuesflg" jdbcType="TINYINT"/>
+        <result column="wedflg" property="wedflg" jdbcType="TINYINT"/>
+        <result column="thurflg" property="thurflg" jdbcType="TINYINT"/>
+        <result column="friflg" property="friflg" jdbcType="TINYINT"/>
+        <result column="satflg" property="satflg" jdbcType="TINYINT"/>
+        <result column="sunflg" property="sunflg" jdbcType="TINYINT"/>
+        <result column="loopflg" property="loopflg" jdbcType="TINYINT"/>
+        <result column="intermission" property="intermission" jdbcType="INTEGER"/>
+        <result column="repeatflg" property="repeatflg" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="continues" property="continues" jdbcType="TINYINT"/>
+        <result column="flg" property="flg" jdbcType="TINYINT"/>
+        <result column="userid" property="userid" jdbcType="BIGINT"/>
+        <result column="firstStartTime" property="firststarttime" jdbcType="TIMESTAMP"/>
+        <result column="nextStartTime" property="nextstarttime" jdbcType="TIMESTAMP"/>
+        <result column="planjson" property="planjson" jdbcType="VARCHAR"/>
+        <result column="startValidDate" property="startvaliddate" jdbcType="VARCHAR"/>
+        <result column="endValidDate" property="endvaliddate" jdbcType="VARCHAR"/>
+        <result column="excuteCount" property="excutecount" jdbcType="INTEGER"/>
+        <result column="taskStatus" property="taskstatus" jdbcType="INTEGER"/>
+        <result column="planschedule" property="planschedule" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_user" property="updatedUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    blockid, deviceid, id, pname, preid, pinterval, fertilization, pumpset, closingdown, 
+    temperature, waittime, fertilizertime, timeflg, runhour, runminite, mon, tuesflg, 
+    wedflg, thurflg, friflg, satflg, sunflg, loopflg, intermission, repeatflg, status, 
+    continues, flg, userid, firstStartTime, nextStartTime, planjson, startValidDate, 
+    endValidDate, excuteCount, taskStatus, planschedule, created_at, created_user, updated_at, 
+    updated_user
+  </sql>
+    <select id="planId" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT
+    id
+    FROM IRRIGATION_PLAN_WORKING
+    WHERE BLOCKID=#{fieldid}
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from irrigation_plan_working
+        where blockid = #{blockid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from irrigation_plan_working
+    where blockid = #{blockid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.IrrigationPlanWorking">
+    insert into irrigation_plan_working (blockid, deviceid, id, 
+      pname, preid, pinterval, 
+      fertilization, pumpset, closingdown, 
+      temperature, waittime, fertilizertime, 
+      timeflg, runhour, runminite, 
+      mon, tuesflg, wedflg, 
+      thurflg, friflg, satflg, 
+      sunflg, loopflg, intermission, 
+      repeatflg, status, continues, 
+      flg, userid, firstStartTime, 
+      nextStartTime, planjson, startValidDate, 
+      endValidDate, excuteCount, taskStatus, 
+      planschedule, created_at, created_user, 
+      updated_at, updated_user)
+    values (#{blockid,jdbcType=BIGINT}, #{deviceid,jdbcType=BIGINT}, #{id,jdbcType=BIGINT}, 
+      #{pname,jdbcType=VARCHAR}, #{preid,jdbcType=BIGINT}, #{pinterval,jdbcType=INTEGER}, 
+      #{fertilization,jdbcType=BIGINT}, #{pumpset,jdbcType=VARCHAR}, #{closingdown,jdbcType=VARCHAR}, 
+      #{temperature,jdbcType=REAL}, #{waittime,jdbcType=INTEGER}, #{fertilizertime,jdbcType=INTEGER}, 
+      #{timeflg,jdbcType=TINYINT}, #{runhour,jdbcType=TINYINT}, #{runminite,jdbcType=TINYINT}, 
+      #{mon,jdbcType=TINYINT}, #{tuesflg,jdbcType=TINYINT}, #{wedflg,jdbcType=TINYINT}, 
+      #{thurflg,jdbcType=TINYINT}, #{friflg,jdbcType=TINYINT}, #{satflg,jdbcType=TINYINT}, 
+      #{sunflg,jdbcType=TINYINT}, #{loopflg,jdbcType=TINYINT}, #{intermission,jdbcType=INTEGER}, 
+      #{repeatflg,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{continues,jdbcType=TINYINT}, 
+      #{flg,jdbcType=TINYINT}, #{userid,jdbcType=BIGINT}, #{firststarttime,jdbcType=TIMESTAMP}, 
+      #{nextstarttime,jdbcType=TIMESTAMP}, #{planjson,jdbcType=VARCHAR}, #{startvaliddate,jdbcType=VARCHAR}, 
+      #{endvaliddate,jdbcType=VARCHAR}, #{excutecount,jdbcType=INTEGER}, #{taskstatus,jdbcType=INTEGER}, 
+      #{planschedule,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.IrrigationPlanWorking">
+        insert into irrigation_plan_working
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="blockid != null">
+                blockid,
+            </if>
+            <if test="deviceid != null">
+                deviceid,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="pname != null">
+                pname,
+            </if>
+            <if test="preid != null">
+                preid,
+            </if>
+            <if test="pinterval != null">
+                pinterval,
+            </if>
+            <if test="fertilization != null">
+                fertilization,
+            </if>
+            <if test="pumpset != null">
+                pumpset,
+            </if>
+            <if test="closingdown != null">
+                closingdown,
+            </if>
+            <if test="temperature != null">
+                temperature,
+            </if>
+            <if test="waittime != null">
+                waittime,
+            </if>
+            <if test="fertilizertime != null">
+                fertilizertime,
+            </if>
+            <if test="timeflg != null">
+                timeflg,
+            </if>
+            <if test="runhour != null">
+                runhour,
+            </if>
+            <if test="runminite != null">
+                runminite,
+            </if>
+            <if test="mon != null">
+                mon,
+            </if>
+            <if test="tuesflg != null">
+                tuesflg,
+            </if>
+            <if test="wedflg != null">
+                wedflg,
+            </if>
+            <if test="thurflg != null">
+                thurflg,
+            </if>
+            <if test="friflg != null">
+                friflg,
+            </if>
+            <if test="satflg != null">
+                satflg,
+            </if>
+            <if test="sunflg != null">
+                sunflg,
+            </if>
+            <if test="loopflg != null">
+                loopflg,
+            </if>
+            <if test="intermission != null">
+                intermission,
+            </if>
+            <if test="repeatflg != null">
+                repeatflg,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="continues != null">
+                continues,
+            </if>
+            <if test="flg != null">
+                flg,
+            </if>
+            <if test="userid != null">
+                userid,
+            </if>
+            <if test="firststarttime != null">
+                firstStartTime,
+            </if>
+            <if test="nextstarttime != null">
+                nextStartTime,
+            </if>
+            <if test="planjson != null">
+                planjson,
+            </if>
+            <if test="startvaliddate != null">
+                startValidDate,
+            </if>
+            <if test="endvaliddate != null">
+                endValidDate,
+            </if>
+            <if test="excutecount != null">
+                excuteCount,
+            </if>
+            <if test="taskstatus != null">
+                taskStatus,
+            </if>
+            <if test="planschedule != null">
+                planschedule,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="createdUser != null">
+                created_user,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="updatedUser != null">
+                updated_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="blockid != null">
+                #{blockid,jdbcType=BIGINT},
+            </if>
+            <if test="deviceid != null">
+                #{deviceid,jdbcType=BIGINT},
+            </if>
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pname != null">
+                #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="preid != null">
+                #{preid,jdbcType=BIGINT},
+            </if>
+            <if test="pinterval != null">
+                #{pinterval,jdbcType=INTEGER},
+            </if>
+            <if test="fertilization != null">
+                #{fertilization,jdbcType=BIGINT},
+            </if>
+            <if test="pumpset != null">
+                #{pumpset,jdbcType=VARCHAR},
+            </if>
+            <if test="closingdown != null">
+                #{closingdown,jdbcType=VARCHAR},
+            </if>
+            <if test="temperature != null">
+                #{temperature,jdbcType=REAL},
+            </if>
+            <if test="waittime != null">
+                #{waittime,jdbcType=INTEGER},
+            </if>
+            <if test="fertilizertime != null">
+                #{fertilizertime,jdbcType=INTEGER},
+            </if>
+            <if test="timeflg != null">
+                #{timeflg,jdbcType=TINYINT},
+            </if>
+            <if test="runhour != null">
+                #{runhour,jdbcType=TINYINT},
+            </if>
+            <if test="runminite != null">
+                #{runminite,jdbcType=TINYINT},
+            </if>
+            <if test="mon != null">
+                #{mon,jdbcType=TINYINT},
+            </if>
+            <if test="tuesflg != null">
+                #{tuesflg,jdbcType=TINYINT},
+            </if>
+            <if test="wedflg != null">
+                #{wedflg,jdbcType=TINYINT},
+            </if>
+            <if test="thurflg != null">
+                #{thurflg,jdbcType=TINYINT},
+            </if>
+            <if test="friflg != null">
+                #{friflg,jdbcType=TINYINT},
+            </if>
+            <if test="satflg != null">
+                #{satflg,jdbcType=TINYINT},
+            </if>
+            <if test="sunflg != null">
+                #{sunflg,jdbcType=TINYINT},
+            </if>
+            <if test="loopflg != null">
+                #{loopflg,jdbcType=TINYINT},
+            </if>
+            <if test="intermission != null">
+                #{intermission,jdbcType=INTEGER},
+            </if>
+            <if test="repeatflg != null">
+                #{repeatflg,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="continues != null">
+                #{continues,jdbcType=TINYINT},
+            </if>
+            <if test="flg != null">
+                #{flg,jdbcType=TINYINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="firststarttime != null">
+                #{firststarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nextstarttime != null">
+                #{nextstarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="planjson != null">
+                #{planjson,jdbcType=VARCHAR},
+            </if>
+            <if test="startvaliddate != null">
+                #{startvaliddate,jdbcType=VARCHAR},
+            </if>
+            <if test="endvaliddate != null">
+                #{endvaliddate,jdbcType=VARCHAR},
+            </if>
+            <if test="excutecount != null">
+                #{excutecount,jdbcType=INTEGER},
+            </if>
+            <if test="taskstatus != null">
+                #{taskstatus,jdbcType=INTEGER},
+            </if>
+            <if test="planschedule != null">
+                #{planschedule,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.IrrigationPlanWorking">
+        update irrigation_plan_working
+        <set>
+            <if test="deviceid != null">
+                deviceid = #{deviceid,jdbcType=BIGINT},
+            </if>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pname != null">
+                pname = #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="preid != null">
+                preid = #{preid,jdbcType=BIGINT},
+            </if>
+            <if test="pinterval != null">
+                pinterval = #{pinterval,jdbcType=INTEGER},
+            </if>
+            <if test="fertilization != null">
+                fertilization = #{fertilization,jdbcType=BIGINT},
+            </if>
+            <if test="pumpset != null">
+                pumpset = #{pumpset,jdbcType=VARCHAR},
+            </if>
+            <if test="closingdown != null">
+                closingdown = #{closingdown,jdbcType=VARCHAR},
+            </if>
+            <if test="temperature != null">
+                temperature = #{temperature,jdbcType=REAL},
+            </if>
+            <if test="waittime != null">
+                waittime = #{waittime,jdbcType=INTEGER},
+            </if>
+            <if test="fertilizertime != null">
+                fertilizertime = #{fertilizertime,jdbcType=INTEGER},
+            </if>
+            <if test="timeflg != null">
+                timeflg = #{timeflg,jdbcType=TINYINT},
+            </if>
+            <if test="runhour != null">
+                runhour = #{runhour,jdbcType=TINYINT},
+            </if>
+            <if test="runminite != null">
+                runminite = #{runminite,jdbcType=TINYINT},
+            </if>
+            <if test="mon != null">
+                mon = #{mon,jdbcType=TINYINT},
+            </if>
+            <if test="tuesflg != null">
+                tuesflg = #{tuesflg,jdbcType=TINYINT},
+            </if>
+            <if test="wedflg != null">
+                wedflg = #{wedflg,jdbcType=TINYINT},
+            </if>
+            <if test="thurflg != null">
+                thurflg = #{thurflg,jdbcType=TINYINT},
+            </if>
+            <if test="friflg != null">
+                friflg = #{friflg,jdbcType=TINYINT},
+            </if>
+            <if test="satflg != null">
+                satflg = #{satflg,jdbcType=TINYINT},
+            </if>
+            <if test="sunflg != null">
+                sunflg = #{sunflg,jdbcType=TINYINT},
+            </if>
+            <if test="loopflg != null">
+                loopflg = #{loopflg,jdbcType=TINYINT},
+            </if>
+            <if test="intermission != null">
+                intermission = #{intermission,jdbcType=INTEGER},
+            </if>
+            <if test="repeatflg != null">
+                repeatflg = #{repeatflg,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="continues != null">
+                continues = #{continues,jdbcType=TINYINT},
+            </if>
+            <if test="flg != null">
+                flg = #{flg,jdbcType=TINYINT},
+            </if>
+            <if test="userid != null">
+                userid = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="firststarttime != null">
+                firstStartTime = #{firststarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nextstarttime != null">
+                nextStartTime = #{nextstarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="planjson != null">
+                planjson = #{planjson,jdbcType=VARCHAR},
+            </if>
+            <if test="startvaliddate != null">
+                startValidDate = #{startvaliddate,jdbcType=VARCHAR},
+            </if>
+            <if test="endvaliddate != null">
+                endValidDate = #{endvaliddate,jdbcType=VARCHAR},
+            </if>
+            <if test="excutecount != null">
+                excuteCount = #{excutecount,jdbcType=INTEGER},
+            </if>
+            <if test="taskstatus != null">
+                taskStatus = #{taskstatus,jdbcType=INTEGER},
+            </if>
+            <if test="planschedule != null">
+                planschedule = #{planschedule,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                created_user = #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                updated_user = #{updatedUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where blockid = #{blockid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.IrrigationPlanWorking">
+    update irrigation_plan_working
+    set deviceid = #{deviceid,jdbcType=BIGINT},
+      id = #{id,jdbcType=BIGINT},
+      pname = #{pname,jdbcType=VARCHAR},
+      preid = #{preid,jdbcType=BIGINT},
+      pinterval = #{pinterval,jdbcType=INTEGER},
+      fertilization = #{fertilization,jdbcType=BIGINT},
+      pumpset = #{pumpset,jdbcType=VARCHAR},
+      closingdown = #{closingdown,jdbcType=VARCHAR},
+      temperature = #{temperature,jdbcType=REAL},
+      waittime = #{waittime,jdbcType=INTEGER},
+      fertilizertime = #{fertilizertime,jdbcType=INTEGER},
+      timeflg = #{timeflg,jdbcType=TINYINT},
+      runhour = #{runhour,jdbcType=TINYINT},
+      runminite = #{runminite,jdbcType=TINYINT},
+      mon = #{mon,jdbcType=TINYINT},
+      tuesflg = #{tuesflg,jdbcType=TINYINT},
+      wedflg = #{wedflg,jdbcType=TINYINT},
+      thurflg = #{thurflg,jdbcType=TINYINT},
+      friflg = #{friflg,jdbcType=TINYINT},
+      satflg = #{satflg,jdbcType=TINYINT},
+      sunflg = #{sunflg,jdbcType=TINYINT},
+      loopflg = #{loopflg,jdbcType=TINYINT},
+      intermission = #{intermission,jdbcType=INTEGER},
+      repeatflg = #{repeatflg,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      continues = #{continues,jdbcType=TINYINT},
+      flg = #{flg,jdbcType=TINYINT},
+      userid = #{userid,jdbcType=BIGINT},
+      firstStartTime = #{firststarttime,jdbcType=TIMESTAMP},
+      nextStartTime = #{nextstarttime,jdbcType=TIMESTAMP},
+      planjson = #{planjson,jdbcType=VARCHAR},
+      startValidDate = #{startvaliddate,jdbcType=VARCHAR},
+      endValidDate = #{endvaliddate,jdbcType=VARCHAR},
+      excuteCount = #{excutecount,jdbcType=INTEGER},
+      taskStatus = #{taskstatus,jdbcType=INTEGER},
+      planschedule = #{planschedule,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR}
+    where blockid = #{blockid,jdbcType=BIGINT}
+  </update>
+</mapper>

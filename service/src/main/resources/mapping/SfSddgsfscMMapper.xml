@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfSddgsfscMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfSddgsfscM">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="CRP_ETAREAL_DATE" property="crpEtarealDate" jdbcType="DATE"/>
+        <result column="FADD_DATE" property="faddDate" jdbcType="DATE"/>
+        <result column="CRP_STG_ID" property="crpStgId" jdbcType="INTEGER"/>
+        <result column="FADD_TIME" property="faddTime" jdbcType="INTEGER"/>
+        <result column="FERTS_N_BASIC" property="fertsNBasic" jdbcType="REAL"/>
+        <result column="FERTS_P_BASIC" property="fertsPBasic" jdbcType="REAL"/>
+        <result column="FERTS_K_BASIC" property="fertsKBasic" jdbcType="REAL"/>
+        <result column="FERT_N_BASIC" property="fertNBasic" jdbcType="REAL"/>
+        <result column="FERT_P_BASIC" property="fertPBasic" jdbcType="REAL"/>
+        <result column="FERT_K_BASIC" property="fertKBasic" jdbcType="REAL"/>
+        <result column="FERTD_DN_K" property="fertdDnK" jdbcType="REAL"/>
+        <result column="FERTD_DP_K" property="fertdDpK" jdbcType="REAL"/>
+        <result column="FERTD_DK_K" property="fertdDkK" jdbcType="REAL"/>
+        <result column="FERTD_DN_GROUPIK" property="fertdDnGroupik" jdbcType="REAL"/>
+        <result column="FERTD_DP_GROUPIK" property="fertdDpGroupik" jdbcType="REAL"/>
+        <result column="FERTD_DK_GROUPIK" property="fertdDkGroupik" jdbcType="REAL"/>
+        <result column="FERT_DN_K" property="fertDnK" jdbcType="REAL"/>
+        <result column="FERT_DP_K" property="fertDpK" jdbcType="REAL"/>
+        <result column="FERT_DK_K" property="fertDkK" jdbcType="REAL"/>
+        <result column="VALVE_AREA" property="valveArea" jdbcType="REAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, FIELD_ID, CRP_VRT_ID, CRP_ETAREAL_DATE, FADD_DATE, CRP_STG_ID, FADD_TIME, FERTS_N_BASIC, 
+    FERTS_P_BASIC, FERTS_K_BASIC, FERT_N_BASIC, FERT_P_BASIC, FERT_K_BASIC, FERTD_DN_K, 
+    FERTD_DP_K, FERTD_DK_K, FERTD_DN_GROUPIK, FERTD_DP_GROUPIK, FERTD_DK_GROUPIK, FERT_DN_K, 
+    FERT_DP_K, FERT_DK_K, VALVE_AREA
+  </sql>
+    <select id="selectIdForUpdate" resultType="java.lang.Long">
+        select id
+        from t_sf_sddgsfsc_m
+        where field_id=#{fieldid}
+        and crp_vrt_id=#{vatid} AND CRP_STG_ID=#{i} AND FADD_TIME=#{j} AND CRP_ETAREAL_DATE=#{dc}
+    </select>
+    <select id="selectIdWithFadd_date" resultType="java.lang.Long">
+        select id
+        from t_sf_sddgsfsc_m
+        where field_id=#{fieldid} and crp_vrt_id=#{vatid} and fadd_date=#{faddDate} AND CRP_ETAREAL_DATE=#{crpEtarealDate}
+    </select>
+    <select id="selectMinFertDate" resultType="java.util.Date">
+       SELECT MIN(FADD_DATE)
+       FROM t_sf_sddgsfsc_m
+       WHERE FIELD_ID=#{fieldid}
+       AND CRP_VRT_ID=#{vatid} AND FADD_DATE>=(
+       SELECT startTime
+       FROM crop_plant
+       WHERE RID=#{fieldid}
+       AND varietyId=#{vatid}) AND FADD_DATE>#{Dfi} AND CRP_ETAREAL_DATE=#{Dc}
+    </select>
+    <select id="selectMaxFertDate" resultType="java.util.Date">
+       SELECT MIN(FADD_DATE)
+       FROM t_sf_sddgsfsc_m
+       WHERE FIELD_ID=#{fieldid}  AND CRP_VRT_ID=#{vatid} AND FADD_DATE>=(
+       SELECT startTime
+       FROM crop_plant
+       WHERE RID=#{fieldid} AND varietyId=#{vatid})
+       AND FADD_DATE>=#{Dfi} AND CRP_ETAREAL_DATE=#{Dc}
+    </select>
+    <select id="selectFaddTimeForUpdate" resultType="java.util.Date">
+        SELECT FADD_DATE
+        FROM T_SF_SDDGSFSC_M
+        WHERE id=#{id}
+    </select>
+    <select id="RecordCount" resultType="java.lang.Integer">
+    select count(1) from t_sf_sddgsfsc_m
+    where field_id=#{fieldid} and crp_vrt_id=#{vatid}
+    AND CRP_STG_ID=#{crpStgid} AND FADD_TIME=#{faddTime} AND CRP_ETAREAL_DATE=#{date}
+  </select>
+    <select id="RecordCountForDripPlan" resultType="java.lang.Integer">
+    select count(1) from t_sf_sddgsfsc_m
+    where field_id=#{fieldid} and crp_vrt_id=#{vatid}
+    AND CRP_STG_ID=#{crpStgid} AND FADD_TIME=#{faddTime} AND FADD_DATE IS NOT NULL
+  </select>
+    <select id="SelectId" resultType="java.lang.Long">
+        select max(id) from t_sf_sddgsfsc_m
+        where field_id=#{fieldid} and crp_vrt_id=#{vatid}
+       AND CRP_STG_ID=#{crpStgid} AND FADD_TIME=#{faddTime}
+       AND FADD_DATE IS NOT NULL
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_sddgsfsc_m
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_sf_sddgsfsc_m
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfSddgsfscM">
+    insert into t_sf_sddgsfsc_m (id, FIELD_ID, CRP_VRT_ID, 
+      CRP_ETAREAL_DATE, FADD_DATE, CRP_STG_ID, 
+      FADD_TIME, FERTS_N_BASIC, FERTS_P_BASIC, 
+      FERTS_K_BASIC, FERT_N_BASIC, FERT_P_BASIC, 
+      FERT_K_BASIC, FERTD_DN_K, FERTD_DP_K, 
+      FERTD_DK_K, FERTD_DN_GROUPIK, FERTD_DP_GROUPIK, 
+      FERTD_DK_GROUPIK, FERT_DN_K, FERT_DP_K, 
+      FERT_DK_K, VALVE_AREA)
+    values (#{id,jdbcType=INTEGER}, #{fieldId,jdbcType=BIGINT}, #{crpVrtId,jdbcType=BIGINT}, 
+      #{crpEtarealDate,jdbcType=DATE}, #{faddDate,jdbcType=DATE}, #{crpStgId,jdbcType=INTEGER}, 
+      #{faddTime,jdbcType=INTEGER}, #{fertsNBasic,jdbcType=REAL}, #{fertsPBasic,jdbcType=REAL}, 
+      #{fertsKBasic,jdbcType=REAL}, #{fertNBasic,jdbcType=REAL}, #{fertPBasic,jdbcType=REAL}, 
+      #{fertKBasic,jdbcType=REAL}, #{fertdDnK,jdbcType=REAL}, #{fertdDpK,jdbcType=REAL}, 
+      #{fertdDkK,jdbcType=REAL}, #{fertdDnGroupik,jdbcType=REAL}, #{fertdDpGroupik,jdbcType=REAL}, 
+      #{fertdDkGroupik,jdbcType=REAL}, #{fertDnK,jdbcType=REAL}, #{fertDpK,jdbcType=REAL}, 
+      #{fertDkK,jdbcType=REAL}, #{valveArea,jdbcType=REAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfSddgsfscM">
+        insert into t_sf_sddgsfsc_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE,
+            </if>
+            <if test="faddDate != null">
+                FADD_DATE,
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID,
+            </if>
+            <if test="faddTime != null">
+                FADD_TIME,
+            </if>
+            <if test="fertsNBasic != null">
+                FERTS_N_BASIC,
+            </if>
+            <if test="fertsPBasic != null">
+                FERTS_P_BASIC,
+            </if>
+            <if test="fertsKBasic != null">
+                FERTS_K_BASIC,
+            </if>
+            <if test="fertNBasic != null">
+                FERT_N_BASIC,
+            </if>
+            <if test="fertPBasic != null">
+                FERT_P_BASIC,
+            </if>
+            <if test="fertKBasic != null">
+                FERT_K_BASIC,
+            </if>
+            <if test="fertdDnK != null">
+                FERTD_DN_K,
+            </if>
+            <if test="fertdDpK != null">
+                FERTD_DP_K,
+            </if>
+            <if test="fertdDkK != null">
+                FERTD_DK_K,
+            </if>
+            <if test="fertdDnGroupik != null">
+                FERTD_DN_GROUPIK,
+            </if>
+            <if test="fertdDpGroupik != null">
+                FERTD_DP_GROUPIK,
+            </if>
+            <if test="fertdDkGroupik != null">
+                FERTD_DK_GROUPIK,
+            </if>
+            <if test="fertDnK != null">
+                FERT_DN_K,
+            </if>
+            <if test="fertDpK != null">
+                FERT_DP_K,
+            </if>
+            <if test="fertDkK != null">
+                FERT_DK_K,
+            </if>
+            <if test="valveArea != null">
+                VALVE_AREA,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpEtarealDate != null">
+                #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="faddDate != null">
+                #{faddDate,jdbcType=DATE},
+            </if>
+            <if test="crpStgId != null">
+                #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="faddTime != null">
+                #{faddTime,jdbcType=INTEGER},
+            </if>
+            <if test="fertsNBasic != null">
+                #{fertsNBasic,jdbcType=REAL},
+            </if>
+            <if test="fertsPBasic != null">
+                #{fertsPBasic,jdbcType=REAL},
+            </if>
+            <if test="fertsKBasic != null">
+                #{fertsKBasic,jdbcType=REAL},
+            </if>
+            <if test="fertNBasic != null">
+                #{fertNBasic,jdbcType=REAL},
+            </if>
+            <if test="fertPBasic != null">
+                #{fertPBasic,jdbcType=REAL},
+            </if>
+            <if test="fertKBasic != null">
+                #{fertKBasic,jdbcType=REAL},
+            </if>
+            <if test="fertdDnK != null">
+                #{fertdDnK,jdbcType=REAL},
+            </if>
+            <if test="fertdDpK != null">
+                #{fertdDpK,jdbcType=REAL},
+            </if>
+            <if test="fertdDkK != null">
+                #{fertdDkK,jdbcType=REAL},
+            </if>
+            <if test="fertdDnGroupik != null">
+                #{fertdDnGroupik,jdbcType=REAL},
+            </if>
+            <if test="fertdDpGroupik != null">
+                #{fertdDpGroupik,jdbcType=REAL},
+            </if>
+            <if test="fertdDkGroupik != null">
+                #{fertdDkGroupik,jdbcType=REAL},
+            </if>
+            <if test="fertDnK != null">
+                #{fertDnK,jdbcType=REAL},
+            </if>
+            <if test="fertDpK != null">
+                #{fertDpK,jdbcType=REAL},
+            </if>
+            <if test="fertDkK != null">
+                #{fertDkK,jdbcType=REAL},
+            </if>
+            <if test="valveArea != null">
+                #{valveArea,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfSddgsfscM">
+        update t_sf_sddgsfsc_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="faddDate != null">
+                FADD_DATE = #{faddDate,jdbcType=DATE},
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="faddTime != null">
+                FADD_TIME = #{faddTime,jdbcType=INTEGER},
+            </if>
+            <if test="fertsNBasic != null">
+                FERTS_N_BASIC = #{fertsNBasic,jdbcType=REAL},
+            </if>
+            <if test="fertsPBasic != null">
+                FERTS_P_BASIC = #{fertsPBasic,jdbcType=REAL},
+            </if>
+            <if test="fertsKBasic != null">
+                FERTS_K_BASIC = #{fertsKBasic,jdbcType=REAL},
+            </if>
+            <if test="fertNBasic != null">
+                FERT_N_BASIC = #{fertNBasic,jdbcType=REAL},
+            </if>
+            <if test="fertPBasic != null">
+                FERT_P_BASIC = #{fertPBasic,jdbcType=REAL},
+            </if>
+            <if test="fertKBasic != null">
+                FERT_K_BASIC = #{fertKBasic,jdbcType=REAL},
+            </if>
+            <if test="fertdDnK != null">
+                FERTD_DN_K = #{fertdDnK,jdbcType=REAL},
+            </if>
+            <if test="fertdDpK != null">
+                FERTD_DP_K = #{fertdDpK,jdbcType=REAL},
+            </if>
+            <if test="fertdDkK != null">
+                FERTD_DK_K = #{fertdDkK,jdbcType=REAL},
+            </if>
+            <if test="fertdDnGroupik != null">
+                FERTD_DN_GROUPIK = #{fertdDnGroupik,jdbcType=REAL},
+            </if>
+            <if test="fertdDpGroupik != null">
+                FERTD_DP_GROUPIK = #{fertdDpGroupik,jdbcType=REAL},
+            </if>
+            <if test="fertdDkGroupik != null">
+                FERTD_DK_GROUPIK = #{fertdDkGroupik,jdbcType=REAL},
+            </if>
+            <if test="fertDnK != null">
+                FERT_DN_K = #{fertDnK,jdbcType=REAL},
+            </if>
+            <if test="fertDpK != null">
+                FERT_DP_K = #{fertDpK,jdbcType=REAL},
+            </if>
+            <if test="fertDkK != null">
+                FERT_DK_K = #{fertDkK,jdbcType=REAL},
+            </if>
+            <if test="valveArea != null">
+                VALVE_AREA = #{valveArea,jdbcType=REAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfSddgsfscM">
+    update t_sf_sddgsfsc_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+      FADD_DATE = #{faddDate,jdbcType=DATE},
+      CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+      FADD_TIME = #{faddTime,jdbcType=INTEGER},
+      FERTS_N_BASIC = #{fertsNBasic,jdbcType=REAL},
+      FERTS_P_BASIC = #{fertsPBasic,jdbcType=REAL},
+      FERTS_K_BASIC = #{fertsKBasic,jdbcType=REAL},
+      FERT_N_BASIC = #{fertNBasic,jdbcType=REAL},
+      FERT_P_BASIC = #{fertPBasic,jdbcType=REAL},
+      FERT_K_BASIC = #{fertKBasic,jdbcType=REAL},
+      FERTD_DN_K = #{fertdDnK,jdbcType=REAL},
+      FERTD_DP_K = #{fertdDpK,jdbcType=REAL},
+      FERTD_DK_K = #{fertdDkK,jdbcType=REAL},
+      FERTD_DN_GROUPIK = #{fertdDnGroupik,jdbcType=REAL},
+      FERTD_DP_GROUPIK = #{fertdDpGroupik,jdbcType=REAL},
+      FERTD_DK_GROUPIK = #{fertdDkGroupik,jdbcType=REAL},
+      FERT_DN_K = #{fertDnK,jdbcType=REAL},
+      FERT_DP_K = #{fertDpK,jdbcType=REAL},
+      FERT_DK_K = #{fertDkK,jdbcType=REAL},
+      VALVE_AREA = #{valveArea,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

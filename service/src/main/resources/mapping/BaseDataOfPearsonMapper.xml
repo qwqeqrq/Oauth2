@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.BaseDataOfPearsonMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.BaseDataOfPearson">
+        <id column="id" property="id" jdbcType="TINYINT"/>
+        <result column="K" property="k" jdbcType="REAL"/>
+        <result column="P" property="p" jdbcType="INTEGER"/>
+        <result column="F" property="f" jdbcType="REAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, K, P, F
+  </sql>
+    <select id="findPara" resultType="java.lang.Float">
+    SELECT F FROM PERCS_M WHERE K=#{frcStest}+#{j} AND P=#{i}
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Byte">
+        select
+        <include refid="Base_Column_List"/>
+        from percs_m
+        where id = #{id,jdbcType=TINYINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Byte">
+    delete from percs_m
+    where id = #{id,jdbcType=TINYINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.BaseDataOfPearson">
+    insert into percs_m (id, K, P, F
+      )
+    values (#{id,jdbcType=TINYINT}, #{k,jdbcType=REAL}, #{p,jdbcType=INTEGER}, #{f,jdbcType=REAL}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.BaseDataOfPearson">
+        insert into percs_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="k != null">
+                K,
+            </if>
+            <if test="p != null">
+                P,
+            </if>
+            <if test="f != null">
+                F,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=TINYINT},
+            </if>
+            <if test="k != null">
+                #{k,jdbcType=REAL},
+            </if>
+            <if test="p != null">
+                #{p,jdbcType=INTEGER},
+            </if>
+            <if test="f != null">
+                #{f,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.BaseDataOfPearson">
+        update percs_m
+        <set>
+            <if test="k != null">
+                K = #{k,jdbcType=REAL},
+            </if>
+            <if test="p != null">
+                P = #{p,jdbcType=INTEGER},
+            </if>
+            <if test="f != null">
+                F = #{f,jdbcType=REAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=TINYINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.BaseDataOfPearson">
+    update percs_m
+    set K = #{k,jdbcType=REAL},
+      P = #{p,jdbcType=INTEGER},
+      F = #{f,jdbcType=REAL}
+    where id = #{id,jdbcType=TINYINT}
+  </update>
+</mapper>

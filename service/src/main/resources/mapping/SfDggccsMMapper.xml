@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfDggccsMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfDggccsM">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="PATTERN" property="pattern" jdbcType="INTEGER"/>
+        <result column="FREQUENCY" property="frequency" jdbcType="VARCHAR"/>
+        <result column="CRP_STG_ID" property="crpStgId" jdbcType="INTEGER"/>
+        <result column="FERT_INTER_MAX" property="fertInterMax" jdbcType="INTEGER"/>
+        <result column="IRRIFERT_GROUP_DEPTH" property="irrifertGroupDepth" jdbcType="REAL"/>
+        <result column="IRRI_GROUP_NUM" property="irriGroupNum" jdbcType="INTEGER"/>
+        <result column="IRRI_GROUP_LIST" property="irriGroupList" jdbcType="BIGINT"/>
+        <result column="IRRI_GVALVE_NUM" property="irriGvalveNum" jdbcType="INTEGER"/>
+        <result column="IRRI_VALVE_LIST" property="irriValveList" jdbcType="BIGINT"/>
+        <result column="VALVE_SIG_QUA" property="valveSigQua" jdbcType="INTEGER"/>
+        <result column="VALVE_SIG_AREA" property="valveSigArea" jdbcType="BIGINT"/>
+        <result column="VALVE_MAX_AREA" property="valveMaxArea" jdbcType="REAL"/>
+        <result column="VALVE_MAX_QUA" property="valveMaxQua" jdbcType="REAL"/>
+        <result column="DRIP_DAILY_WORK" property="dripDailyWork" jdbcType="INTEGER"/>
+        <result column="FERTAN_I_R" property="fertanIR" jdbcType="REAL"/>
+        <result column="FERTAP_I_R" property="fertapIR" jdbcType="REAL"/>
+        <result column="FERT_I_TIMES" property="fertITimes" jdbcType="INTEGER"/>
+        <result column="FERTAK_I_R" property="fertakIR" jdbcType="REAL"/>
+        <result column="FERT_RATIO_N" property="fertRatioN" jdbcType="REAL"/>
+        <result column="FERT_RATIO_P" property="fertRatioP" jdbcType="REAL"/>
+        <result column="FERT_RATIO_K" property="fertRatioK" jdbcType="REAL"/>
+        <result column="ANALYSIS" property="analysis" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, FIELD_ID, CRP_VRT_ID, PATTERN, FREQUENCY, CRP_STG_ID, FERT_INTER_MAX, IRRIFERT_GROUP_DEPTH,
+    IRRI_GROUP_NUM, IRRI_GROUP_LIST, IRRI_GVALVE_NUM, IRRI_VALVE_LIST, VALVE_SIG_QUA,
+    VALVE_SIG_AREA, VALVE_MAX_AREA, VALVE_MAX_QUA, DRIP_DAILY_WORK, FERTAN_I_R, FERTAP_I_R,
+    FERT_I_TIMES, FERTAK_I_R, FERT_RATIO_N, FERT_RATIO_P, FERT_RATIO_K, ANALYSIS
+  </sql>
+    <select id="selectFertInterMaxAndDripDailyWork" resultType="java.lang.String">
+       SELECT CONCAT_WS(',',IFNULL(FERT_INTER_MAX,0),IFNULL(DRIP_DAILY_WORK,0))
+       FROM t_sf_dggccs_m
+       WHERE FIELD_ID=#{fieldid}  AND CRP_VRT_ID=#{vatid} AND PATTERN=1 limit 1
+    </select>
+    <select id="selectFertInterMaxAndDripDailyWorkIrriFertgroupDeepth" resultType="java.lang.String">
+       SELECT CONCAT_WS(',',IFNULL(FERT_INTER_MAX,0),IFNULL(DRIP_DAILY_WORK,0),IFNULL(IRRIFERT_GROUP_DEPTH,0))
+       FROM t_sf_dggccs_m
+       WHERE FIELD_ID=#{fieldid}  AND CRP_VRT_ID=#{vatid} AND PATTERN=0 limit 1
+    </select>
+    <select id="selectFertTime" resultType="java.lang.Integer">
+        SELECT FERT_I_TIMES
+        FROM T_SF_DGGCCS_M
+        WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} AND CRP_STG_ID=#{i}
+    </select>
+    <select id="FertPara" resultType="java.lang.String">
+        SELECT CONCAT_WS(',',IFNULL(FERTAK_I_R, 0),IFNULL(FERTAN_I_R, 0),IFNULL(FERTAP_I_R, 0),IFNULL(FERT_I_TIMES, 0))
+        FROM t_sf_dggccs_m
+        WHERE FIELD_ID = #{fieldid}
+        AND CRP_VRT_ID = #{vatid}
+        AND CRP_STG_ID = #{i}
+    </select>
+    <select id="FertRatio" resultType="java.lang.String">
+    SELECT DISTINCT CONCAT_WS(',',IFNULL(FERT_RATIO_N,0),IFNULL(FERT_RATIO_P,0),IFNULL(FERT_RATIO_K,0))
+    FROM T_SF_DGGCCS_M
+    WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} AND PATTERN = 0
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_dggccs_m
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_sf_dggccs_m
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfDggccsM">
+    insert into t_sf_dggccs_m (id, FIELD_ID, CRP_VRT_ID, 
+      PATTERN, FREQUENCY, CRP_STG_ID, 
+      FERT_INTER_MAX, IRRIFERT_GROUP_DEPTH, IRRI_GROUP_NUM, 
+      IRRI_GROUP_LIST, IRRI_GVALVE_NUM, IRRI_VALVE_LIST, 
+      VALVE_SIG_QUA, VALVE_SIG_AREA, VALVE_MAX_AREA, 
+      VALVE_MAX_QUA, DRIP_DAILY_WORK, FERTAN_I_R, 
+      FERTAP_I_R, FERT_I_TIMES, FERTAK_I_R, 
+      FERT_RATIO_N, FERT_RATIO_P, FERT_RATIO_K, 
+      ANALYSIS)
+    values (#{id,jdbcType=BIGINT}, #{fieldId,jdbcType=BIGINT}, #{crpVrtId,jdbcType=BIGINT}, 
+      #{pattern,jdbcType=INTEGER}, #{frequency,jdbcType=VARCHAR}, #{crpStgId,jdbcType=INTEGER}, 
+      #{fertInterMax,jdbcType=INTEGER}, #{irrifertGroupDepth,jdbcType=REAL}, #{irriGroupNum,jdbcType=INTEGER}, 
+      #{irriGroupList,jdbcType=BIGINT}, #{irriGvalveNum,jdbcType=INTEGER}, #{irriValveList,jdbcType=BIGINT}, 
+      #{valveSigQua,jdbcType=INTEGER}, #{valveSigArea,jdbcType=BIGINT}, #{valveMaxArea,jdbcType=REAL}, 
+      #{valveMaxQua,jdbcType=REAL}, #{dripDailyWork,jdbcType=INTEGER}, #{fertanIR,jdbcType=REAL}, 
+      #{fertapIR,jdbcType=REAL}, #{fertITimes,jdbcType=INTEGER}, #{fertakIR,jdbcType=REAL}, 
+      #{fertRatioN,jdbcType=REAL}, #{fertRatioP,jdbcType=REAL}, #{fertRatioK,jdbcType=REAL}, 
+      #{analysis,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfDggccsM">
+        insert into t_sf_dggccs_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="pattern != null">
+                PATTERN,
+            </if>
+            <if test="frequency != null">
+                FREQUENCY,
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID,
+            </if>
+            <if test="fertInterMax != null">
+                FERT_INTER_MAX,
+            </if>
+            <if test="irrifertGroupDepth != null">
+                IRRIFERT_GROUP_DEPTH,
+            </if>
+            <if test="irriGroupNum != null">
+                IRRI_GROUP_NUM,
+            </if>
+            <if test="irriGroupList != null">
+                IRRI_GROUP_LIST,
+            </if>
+            <if test="irriGvalveNum != null">
+                IRRI_GVALVE_NUM,
+            </if>
+            <if test="irriValveList != null">
+                IRRI_VALVE_LIST,
+            </if>
+            <if test="valveSigQua != null">
+                VALVE_SIG_QUA,
+            </if>
+            <if test="valveSigArea != null">
+                VALVE_SIG_AREA,
+            </if>
+            <if test="valveMaxArea != null">
+                VALVE_MAX_AREA,
+            </if>
+            <if test="valveMaxQua != null">
+                VALVE_MAX_QUA,
+            </if>
+            <if test="dripDailyWork != null">
+                DRIP_DAILY_WORK,
+            </if>
+            <if test="fertanIR != null">
+                FERTAN_I_R,
+            </if>
+            <if test="fertapIR != null">
+                FERTAP_I_R,
+            </if>
+            <if test="fertITimes != null">
+                FERT_I_TIMES,
+            </if>
+            <if test="fertakIR != null">
+                FERTAK_I_R,
+            </if>
+            <if test="fertRatioN != null">
+                FERT_RATIO_N,
+            </if>
+            <if test="fertRatioP != null">
+                FERT_RATIO_P,
+            </if>
+            <if test="fertRatioK != null">
+                FERT_RATIO_K,
+            </if>
+            <if test="analysis != null">
+                ANALYSIS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="pattern != null">
+                #{pattern,jdbcType=INTEGER},
+            </if>
+            <if test="frequency != null">
+                #{frequency,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="fertInterMax != null">
+                #{fertInterMax,jdbcType=INTEGER},
+            </if>
+            <if test="irrifertGroupDepth != null">
+                #{irrifertGroupDepth,jdbcType=REAL},
+            </if>
+            <if test="irriGroupNum != null">
+                #{irriGroupNum,jdbcType=INTEGER},
+            </if>
+            <if test="irriGroupList != null">
+                #{irriGroupList,jdbcType=BIGINT},
+            </if>
+            <if test="irriGvalveNum != null">
+                #{irriGvalveNum,jdbcType=INTEGER},
+            </if>
+            <if test="irriValveList != null">
+                #{irriValveList,jdbcType=BIGINT},
+            </if>
+            <if test="valveSigQua != null">
+                #{valveSigQua,jdbcType=INTEGER},
+            </if>
+            <if test="valveSigArea != null">
+                #{valveSigArea,jdbcType=BIGINT},
+            </if>
+            <if test="valveMaxArea != null">
+                #{valveMaxArea,jdbcType=REAL},
+            </if>
+            <if test="valveMaxQua != null">
+                #{valveMaxQua,jdbcType=REAL},
+            </if>
+            <if test="dripDailyWork != null">
+                #{dripDailyWork,jdbcType=INTEGER},
+            </if>
+            <if test="fertanIR != null">
+                #{fertanIR,jdbcType=REAL},
+            </if>
+            <if test="fertapIR != null">
+                #{fertapIR,jdbcType=REAL},
+            </if>
+            <if test="fertITimes != null">
+                #{fertITimes,jdbcType=INTEGER},
+            </if>
+            <if test="fertakIR != null">
+                #{fertakIR,jdbcType=REAL},
+            </if>
+            <if test="fertRatioN != null">
+                #{fertRatioN,jdbcType=REAL},
+            </if>
+            <if test="fertRatioP != null">
+                #{fertRatioP,jdbcType=REAL},
+            </if>
+            <if test="fertRatioK != null">
+                #{fertRatioK,jdbcType=REAL},
+            </if>
+            <if test="analysis != null">
+                #{analysis,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfDggccsM">
+        update t_sf_dggccs_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="pattern != null">
+                PATTERN = #{pattern,jdbcType=INTEGER},
+            </if>
+            <if test="frequency != null">
+                FREQUENCY = #{frequency,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="fertInterMax != null">
+                FERT_INTER_MAX = #{fertInterMax,jdbcType=INTEGER},
+            </if>
+            <if test="irrifertGroupDepth != null">
+                IRRIFERT_GROUP_DEPTH = #{irrifertGroupDepth,jdbcType=REAL},
+            </if>
+            <if test="irriGroupNum != null">
+                IRRI_GROUP_NUM = #{irriGroupNum,jdbcType=INTEGER},
+            </if>
+            <if test="irriGroupList != null">
+                IRRI_GROUP_LIST = #{irriGroupList,jdbcType=BIGINT},
+            </if>
+            <if test="irriGvalveNum != null">
+                IRRI_GVALVE_NUM = #{irriGvalveNum,jdbcType=INTEGER},
+            </if>
+            <if test="irriValveList != null">
+                IRRI_VALVE_LIST = #{irriValveList,jdbcType=BIGINT},
+            </if>
+            <if test="valveSigQua != null">
+                VALVE_SIG_QUA = #{valveSigQua,jdbcType=INTEGER},
+            </if>
+            <if test="valveSigArea != null">
+                VALVE_SIG_AREA = #{valveSigArea,jdbcType=BIGINT},
+            </if>
+            <if test="valveMaxArea != null">
+                VALVE_MAX_AREA = #{valveMaxArea,jdbcType=REAL},
+            </if>
+            <if test="valveMaxQua != null">
+                VALVE_MAX_QUA = #{valveMaxQua,jdbcType=REAL},
+            </if>
+            <if test="dripDailyWork != null">
+                DRIP_DAILY_WORK = #{dripDailyWork,jdbcType=INTEGER},
+            </if>
+            <if test="fertanIR != null">
+                FERTAN_I_R = #{fertanIR,jdbcType=REAL},
+            </if>
+            <if test="fertapIR != null">
+                FERTAP_I_R = #{fertapIR,jdbcType=REAL},
+            </if>
+            <if test="fertITimes != null">
+                FERT_I_TIMES = #{fertITimes,jdbcType=INTEGER},
+            </if>
+            <if test="fertakIR != null">
+                FERTAK_I_R = #{fertakIR,jdbcType=REAL},
+            </if>
+            <if test="fertRatioN != null">
+                FERT_RATIO_N = #{fertRatioN,jdbcType=REAL},
+            </if>
+            <if test="fertRatioP != null">
+                FERT_RATIO_P = #{fertRatioP,jdbcType=REAL},
+            </if>
+            <if test="fertRatioK != null">
+                FERT_RATIO_K = #{fertRatioK,jdbcType=REAL},
+            </if>
+            <if test="analysis != null">
+                ANALYSIS = #{analysis,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfDggccsM">
+    update t_sf_dggccs_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      PATTERN = #{pattern,jdbcType=INTEGER},
+      FREQUENCY = #{frequency,jdbcType=VARCHAR},
+      CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+      FERT_INTER_MAX = #{fertInterMax,jdbcType=INTEGER},
+      IRRIFERT_GROUP_DEPTH = #{irrifertGroupDepth,jdbcType=REAL},
+      IRRI_GROUP_NUM = #{irriGroupNum,jdbcType=INTEGER},
+      IRRI_GROUP_LIST = #{irriGroupList,jdbcType=BIGINT},
+      IRRI_GVALVE_NUM = #{irriGvalveNum,jdbcType=INTEGER},
+      IRRI_VALVE_LIST = #{irriValveList,jdbcType=BIGINT},
+      VALVE_SIG_QUA = #{valveSigQua,jdbcType=INTEGER},
+      VALVE_SIG_AREA = #{valveSigArea,jdbcType=BIGINT},
+      VALVE_MAX_AREA = #{valveMaxArea,jdbcType=REAL},
+      VALVE_MAX_QUA = #{valveMaxQua,jdbcType=REAL},
+      DRIP_DAILY_WORK = #{dripDailyWork,jdbcType=INTEGER},
+      FERTAN_I_R = #{fertanIR,jdbcType=REAL},
+      FERTAP_I_R = #{fertapIR,jdbcType=REAL},
+      FERT_I_TIMES = #{fertITimes,jdbcType=INTEGER},
+      FERTAK_I_R = #{fertakIR,jdbcType=REAL},
+      FERT_RATIO_N = #{fertRatioN,jdbcType=REAL},
+      FERT_RATIO_P = #{fertRatioP,jdbcType=REAL},
+      FERT_RATIO_K = #{fertRatioK,jdbcType=REAL},
+      ANALYSIS = #{analysis,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfDgggscMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfDgggscM">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="FIELD_SITE" property="fieldSite" jdbcType="VARCHAR"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="CROP_GDS" property="cropGds" jdbcType="INTEGER"/>
+        <result column="FERT_TOTAL_TIMES" property="fertTotalTimes" jdbcType="INTEGER"/>
+        <result column="IRRI_GROUP_NUM" property="irriGroupNum" jdbcType="VARCHAR"/>
+        <result column="CRP_ETAREAL_DATE" property="crpEtarealDate" jdbcType="DATE"/>
+        <result column="IRRI_GROUP_START" property="irriGroupStart" jdbcType="TIMESTAMP"/>
+        <result column="IRRI_GROUP_STOP" property="irriGroupStop" jdbcType="TIMESTAMP"/>
+        <result column="IRRI_VALVE_NAME" property="irriValveName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, FIELD_ID, FIELD_SITE, CRP_VRT_ID, CROP_GDS, FERT_TOTAL_TIMES, IRRI_GROUP_NUM, 
+    CRP_ETAREAL_DATE, IRRI_GROUP_START, IRRI_GROUP_STOP, IRRI_VALVE_NAME
+  </sql>
+    <select id="selectMaxIrriGroupStartForAutomaticIrrigation" resultType="java.util.Date">
+       SELECT MAX(IRRI_GROUP_START)
+       FROM T_SF_DGGGSC_M
+       WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} and CRP_ETAREAL_DATE=#dc
+    </select>
+    <select id="selectMinIrriGroupStartForAutomaticIrrigation" resultType="java.util.Date">
+       SELECT MIN(IRRI_GROUP_START)
+       FROM T_SF_DGGGSC_M
+       WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} and CRP_ETAREAL_DATE=#dc
+    </select>
+    <select id="selectIdOnAutomaticIrrigation" resultType="java.lang.Integer">
+         SELECT id FROM t_sf_dgggsc_m
+         WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} AND IRRI_GROUP_NUM=#{irriName} AND FERT_TOTAL_TIMES=#{m} AND CRP_ETAREAL_DATE=#{dc}
+    </select>
+    <select id="countInAutomaticIrrigation" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+         FROM t_sf_dgggsc_m
+         WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} AND IRRI_GROUP_NUM=#{irriName} AND FERT_TOTAL_TIMES=#{m} AND CRP_ETAREAL_DATE=#{dc}
+    </select>
+    <select id="RecordCount" resultType="java.lang.Integer">
+    SELECT COUNT(1)
+    FROM t_sf_dgggsc_m WHERE FIELD_ID=#{fieldid}
+    AND CRP_VRT_ID=#{vatid} AND IRRI_GROUP_NUM=#{IrriName} AND FERT_TOTAL_TIMES IS NULL AND CRP_ETAREAL_DATE=#{date}
+  </select>
+    <select id="SelectId" resultType="java.lang.Long">
+        select id FROM t_sf_dgggsc_m WHERE FIELD_ID=#{fieldid}
+    AND CRP_VRT_ID=#{vatid} AND IRRI_GROUP_NUM=#{IrriName} AND FERT_TOTAL_TIMES IS NULL AND CRP_ETAREAL_DATE=#{date}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_dgggsc_m
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_sf_dgggsc_m
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfDgggscM">
+    insert into t_sf_dgggsc_m (ID, FIELD_ID, FIELD_SITE, 
+      CRP_VRT_ID, CROP_GDS, FERT_TOTAL_TIMES, 
+      IRRI_GROUP_NUM, CRP_ETAREAL_DATE, IRRI_GROUP_START, 
+      IRRI_GROUP_STOP, IRRI_VALVE_NAME)
+    values (#{id,jdbcType=BIGINT}, #{fieldId,jdbcType=BIGINT}, #{fieldSite,jdbcType=VARCHAR}, 
+      #{crpVrtId,jdbcType=BIGINT}, #{cropGds,jdbcType=INTEGER}, #{fertTotalTimes,jdbcType=INTEGER}, 
+      #{irriGroupNum,jdbcType=VARCHAR}, #{crpEtarealDate,jdbcType=DATE}, #{irriGroupStart,jdbcType=TIMESTAMP}, 
+      #{irriGroupStop,jdbcType=TIMESTAMP}, #{irriValveName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfDgggscM">
+        insert into t_sf_dgggsc_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="cropGds != null">
+                CROP_GDS,
+            </if>
+            <if test="fertTotalTimes != null">
+                FERT_TOTAL_TIMES,
+            </if>
+            <if test="irriGroupNum != null">
+                IRRI_GROUP_NUM,
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE,
+            </if>
+            <if test="irriGroupStart != null">
+                IRRI_GROUP_START,
+            </if>
+            <if test="irriGroupStop != null">
+                IRRI_GROUP_STOP,
+            </if>
+            <if test="irriValveName != null">
+                IRRI_VALVE_NAME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="cropGds != null">
+                #{cropGds,jdbcType=INTEGER},
+            </if>
+            <if test="fertTotalTimes != null">
+                #{fertTotalTimes,jdbcType=INTEGER},
+            </if>
+            <if test="irriGroupNum != null">
+                #{irriGroupNum,jdbcType=VARCHAR},
+            </if>
+            <if test="crpEtarealDate != null">
+                #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="irriGroupStart != null">
+                #{irriGroupStart,jdbcType=TIMESTAMP},
+            </if>
+            <if test="irriGroupStop != null">
+                #{irriGroupStop,jdbcType=TIMESTAMP},
+            </if>
+            <if test="irriValveName != null">
+                #{irriValveName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfDgggscM">
+        update t_sf_dgggsc_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="cropGds != null">
+                CROP_GDS = #{cropGds,jdbcType=INTEGER},
+            </if>
+            <if test="fertTotalTimes != null">
+                FERT_TOTAL_TIMES = #{fertTotalTimes,jdbcType=INTEGER},
+            </if>
+            <if test="irriGroupNum != null">
+                IRRI_GROUP_NUM = #{irriGroupNum,jdbcType=VARCHAR},
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="irriGroupStart != null">
+                IRRI_GROUP_START = #{irriGroupStart,jdbcType=TIMESTAMP},
+            </if>
+            <if test="irriGroupStop != null">
+                IRRI_GROUP_STOP = #{irriGroupStop,jdbcType=TIMESTAMP},
+            </if>
+            <if test="irriValveName != null">
+                IRRI_VALVE_NAME = #{irriValveName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfDgggscM">
+    update t_sf_dgggsc_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      CROP_GDS = #{cropGds,jdbcType=INTEGER},
+      FERT_TOTAL_TIMES = #{fertTotalTimes,jdbcType=INTEGER},
+      IRRI_GROUP_NUM = #{irriGroupNum,jdbcType=VARCHAR},
+      CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+      IRRI_GROUP_START = #{irriGroupStart,jdbcType=TIMESTAMP},
+      IRRI_GROUP_STOP = #{irriGroupStop,jdbcType=TIMESTAMP},
+      IRRI_VALVE_NAME = #{irriValveName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.second.service.Dao.SfPgsfzdscMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfPgsfzdscM">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="FIELD_ID" jdbcType="BIGINT" property="fieldId"/>
+        <result column="FIELD_SITE" jdbcType="VARCHAR" property="fieldSite"/>
+        <result column="CRP_STG_NAME" jdbcType="VARCHAR" property="crpStgName"/>
+        <result column="FERT_I_TIME" jdbcType="INTEGER" property="fertITime"/>
+        <result column="CRP_STG_ID" jdbcType="INTEGER" property="crpStgId"/>
+        <result column="CRP_VRT_ID" jdbcType="BIGINT" property="crpVrtId"/>
+        <result column="CRP_ETAREAL_DATE" jdbcType="DATE" property="crpEtarealDate"/>
+        <result column="FAN_I" jdbcType="REAL" property="fanI"/>
+        <result column="FAP_I" jdbcType="REAL" property="fapI"/>
+        <result column="FAK_I" jdbcType="REAL" property="fakI"/>
+        <result column="FAN_SPRAY_BASIC" jdbcType="REAL" property="fanSprayBasic"/>
+        <result column="FAP_SPRAY_BASIC" jdbcType="REAL" property="fapSprayBasic"/>
+        <result column="FAK_SPRAY_BASIC" jdbcType="REAL" property="fakSprayBasic"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, FIELD_ID, FIELD_SITE, CRP_STG_NAME, FERT_I_TIME, CRP_STG_ID, CRP_VRT_ID, CRP_ETAREAL_DATE,
+    FAN_I, FAP_I, FAK_I, FAN_SPRAY_BASIC, FAP_SPRAY_BASIC, FAK_SPRAY_BASIC
+  </sql>
+    <select id="SelectId" resultType="java.lang.Long">
+        SELECT id
+        FROM t_sf_pgsfzdsc_m
+        WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} AND CRP_STG_ID=#{i}  AND CRP_ETAREAL_DATE=#{date}
+    </select>
+    <select id="RecordCount" resultType="java.lang.Integer">
+    SELECT COUNT(1)
+    FROM t_sf_pgsfzdsc_m
+    WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} AND CRP_STG_ID=#{i} AND CRP_ETAREAL_DATE=#{date}
+  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_pgsfzdsc_m
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_sf_pgsfzdsc_m
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfPgsfzdscM">
+    insert into t_sf_pgsfzdsc_m (ID, FIELD_ID, FIELD_SITE,
+      CRP_STG_NAME, FERT_I_TIME, CRP_STG_ID,
+      CRP_VRT_ID, CRP_ETAREAL_DATE, FAN_I,
+      FAP_I, FAK_I, FAN_SPRAY_BASIC, FAP_SPRAY_BASIC,
+      FAK_SPRAY_BASIC)
+    values (#{id,jdbcType=BIGINT}, #{fieldId,jdbcType=BIGINT}, #{fieldSite,jdbcType=VARCHAR},
+      #{crpStgName,jdbcType=VARCHAR}, #{fertITime,jdbcType=INTEGER}, #{crpStgId,jdbcType=INTEGER},
+      #{crpVrtId,jdbcType=BIGINT}, #{crpEtarealDate,jdbcType=DATE}, #{fanI,jdbcType=REAL},
+      #{fapI,jdbcType=REAL}, #{fakI,jdbcType=REAL}, #{fanSprayBasic,jdbcType=REAL}, #{fapSprayBasic,jdbcType=REAL},
+      #{fakSprayBasic,jdbcType=REAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfPgsfzdscM">
+        insert into t_sf_pgsfzdsc_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE,
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME,
+            </if>
+            <if test="fertITime != null">
+                FERT_I_TIME,
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE,
+            </if>
+            <if test="fanI != null">
+                FAN_I,
+            </if>
+            <if test="fapI != null">
+                FAP_I,
+            </if>
+            <if test="fakI != null">
+                FAK_I,
+            </if>
+            <if test="fanSprayBasic != null">
+                FAN_SPRAY_BASIC,
+            </if>
+            <if test="fapSprayBasic != null">
+                FAP_SPRAY_BASIC,
+            </if>
+            <if test="fakSprayBasic != null">
+                FAK_SPRAY_BASIC,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgName != null">
+                #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="fertITime != null">
+                #{fertITime,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgId != null">
+                #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpEtarealDate != null">
+                #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="fanI != null">
+                #{fanI,jdbcType=REAL},
+            </if>
+            <if test="fapI != null">
+                #{fapI,jdbcType=REAL},
+            </if>
+            <if test="fakI != null">
+                #{fakI,jdbcType=REAL},
+            </if>
+            <if test="fanSprayBasic != null">
+                #{fanSprayBasic,jdbcType=REAL},
+            </if>
+            <if test="fapSprayBasic != null">
+                #{fapSprayBasic,jdbcType=REAL},
+            </if>
+            <if test="fakSprayBasic != null">
+                #{fakSprayBasic,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfPgsfzdscM">
+        update t_sf_pgsfzdsc_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="fertITime != null">
+                FERT_I_TIME = #{fertITime,jdbcType=INTEGER},
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="fanI != null">
+                FAN_I = #{fanI,jdbcType=REAL},
+            </if>
+            <if test="fapI != null">
+                FAP_I = #{fapI,jdbcType=REAL},
+            </if>
+            <if test="fakI != null">
+                FAK_I = #{fakI,jdbcType=REAL},
+            </if>
+            <if test="fanSprayBasic != null">
+                FAN_SPRAY_BASIC = #{fanSprayBasic,jdbcType=REAL},
+            </if>
+            <if test="fapSprayBasic != null">
+                FAP_SPRAY_BASIC = #{fapSprayBasic,jdbcType=REAL},
+            </if>
+            <if test="fakSprayBasic != null">
+                FAK_SPRAY_BASIC = #{fakSprayBasic,jdbcType=REAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfPgsfzdscM">
+    update t_sf_pgsfzdsc_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+      CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+      FERT_I_TIME = #{fertITime,jdbcType=INTEGER},
+      CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+      FAN_I = #{fanI,jdbcType=REAL},
+      FAP_I = #{fapI,jdbcType=REAL},
+      FAK_I = #{fakI,jdbcType=REAL},
+      FAN_SPRAY_BASIC = #{fanSprayBasic,jdbcType=REAL},
+      FAP_SPRAY_BASIC = #{fapSprayBasic,jdbcType=REAL},
+      FAK_SPRAY_BASIC = #{fakSprayBasic,jdbcType=REAL}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

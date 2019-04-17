@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfXffxscMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfXffxscM">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="FIELD_SITE" property="fieldSite" jdbcType="VARCHAR"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="CRP_STG_NAME" property="crpStgName" jdbcType="VARCHAR"/>
+        <result column="CRP_STG_ID" property="crpStgId" jdbcType="INTEGER"/>
+        <result column="CRP_ETAREAL_DATE" property="crpEtarealDate" jdbcType="VARCHAR"/>
+        <result column="CRP_YLD_MAX" property="crpYldMax" jdbcType="REAL"/>
+        <result column="CRP_PRD_ID" property="crpPrdId" jdbcType="INTEGER"/>
+        <result column="FERT_AIM_AN" property="fertAimAn" jdbcType="REAL"/>
+        <result column="FERT_AIM_AP" property="fertAimAp" jdbcType="REAL"/>
+        <result column="FERT_AIM_AK" property="fertAimAk" jdbcType="REAL"/>
+        <result column="SOILCC_K" property="soilccK" jdbcType="VARCHAR"/>
+        <result column="SOILCC_P" property="soilccP" jdbcType="VARCHAR"/>
+        <result column="SOILCC_N" property="soilccN" jdbcType="REAL"/>
+        <result column="SOILSUP_AN" property="soilsupAn" jdbcType="REAL"/>
+        <result column="SOILSUP_AP" property="soilsupAp" jdbcType="REAL"/>
+        <result column="SOILSUP_AK" property="soilsupAk" jdbcType="REAL"/>
+        <result column="FERTSUP_AN" property="fertsupAn" jdbcType="REAL"/>
+        <result column="FERTSUP_AP" property="fertsupAp" jdbcType="REAL"/>
+        <result column="FERTSUP_AK" property="fertsupAk" jdbcType="REAL"/>
+        <result column="FSTAGE_AN_I" property="fstageAnI" jdbcType="REAL"/>
+        <result column="FSTAGE_AP_I" property="fstageApI" jdbcType="REAL"/>
+        <result column="FSTAGE_AK_I" property="fstageAkI" jdbcType="REAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, FIELD_ID, FIELD_SITE, CRP_VRT_ID, CRP_STG_NAME, CRP_STG_ID, CRP_ETAREAL_DATE,
+    CRP_YLD_MAX, CRP_PRD_ID, FERT_AIM_AN, FERT_AIM_AP, FERT_AIM_AK, SOILCC_K, SOILCC_P,
+    SOILCC_N, SOILSUP_AN, SOILSUP_AP, SOILSUP_AK, FERTSUP_AN, FERTSUP_AP, FERTSUP_AK,
+    FSTAGE_AN_I, FSTAGE_AP_I, FSTAGE_AK_I
+  </sql>
+    <select id="RecordCount" resultType="java.lang.Integer">
+    select count(1) from T_SF_XFFXSC_M
+    where field_id=#{fieldid} and crp_vrt_id=#{vatid}
+    and crp_stg_id=#{i} and crp_etareal_date=#{date}
+  </select>
+    <select id="SelectId" resultType="java.lang.Long">
+        select id from T_SF_XFFXSC_M
+        where field_id=#{fieldid} and crp_vrt_id=#{vatid}
+        and crp_stg_id=#{i} and crp_etareal_date=#{date}
+    </select>
+    <select id="ParaOfFertNeed" resultType="java.lang.String">
+    SELECT CONCAT_WS(',',IFNULL(FERTSUP_AN,0),IFNULL(FERTSUP_AP,0),IFNULL(FERTSUP_AK,0),IFNULL(FSTAGE_AK_I,0),IFNULL(FSTAGE_AN_I,0),IFNULL(FSTAGE_AP_I,0))
+    FROM T_SF_XFFXSC_M
+    WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} AND CRP_STG_ID=#{i}
+    ORDER BY CRP_ETAREAL_DATE DESC limit 1
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_xffxsc_m
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_sf_xffxsc_m
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfXffxscM">
+    insert into t_sf_xffxsc_m (ID, FIELD_ID, FIELD_SITE, 
+      CRP_VRT_ID, CRP_STG_NAME, CRP_STG_ID, 
+      CRP_ETAREAL_DATE, CRP_YLD_MAX, CRP_PRD_ID, 
+      FERT_AIM_AN, FERT_AIM_AP, FERT_AIM_AK, 
+      SOILCC_K, SOILCC_P, SOILCC_N, 
+      SOILSUP_AN, SOILSUP_AP, SOILSUP_AK, 
+      FERTSUP_AN, FERTSUP_AP, FERTSUP_AK, 
+      FSTAGE_AN_I, FSTAGE_AP_I, FSTAGE_AK_I
+      )
+    values (#{id,jdbcType=BIGINT}, #{fieldId,jdbcType=BIGINT}, #{fieldSite,jdbcType=VARCHAR}, 
+      #{crpVrtId,jdbcType=BIGINT}, #{crpStgName,jdbcType=VARCHAR}, #{crpStgId,jdbcType=INTEGER}, 
+      #{crpEtarealDate,jdbcType=DATE}, #{crpYldMax,jdbcType=REAL}, #{crpPrdId,jdbcType=INTEGER}, 
+      #{fertAimAn,jdbcType=REAL}, #{fertAimAp,jdbcType=REAL}, #{fertAimAk,jdbcType=REAL}, 
+      #{soilccK,jdbcType=VARCHAR}, #{soilccP,jdbcType=VARCHAR}, #{soilccN,jdbcType=REAL}, 
+      #{soilsupAn,jdbcType=REAL}, #{soilsupAp,jdbcType=REAL}, #{soilsupAk,jdbcType=REAL}, 
+      #{fertsupAn,jdbcType=REAL}, #{fertsupAp,jdbcType=REAL}, #{fertsupAk,jdbcType=REAL}, 
+      #{fstageAnI,jdbcType=REAL}, #{fstageApI,jdbcType=REAL}, #{fstageAkI,jdbcType=REAL}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfXffxscM">
+        insert into t_sf_xffxsc_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME,
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID,
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE,
+            </if>
+            <if test="crpYldMax != null">
+                CRP_YLD_MAX,
+            </if>
+            <if test="crpPrdId != null">
+                CRP_PRD_ID,
+            </if>
+            <if test="fertAimAn != null">
+                FERT_AIM_AN,
+            </if>
+            <if test="fertAimAp != null">
+                FERT_AIM_AP,
+            </if>
+            <if test="fertAimAk != null">
+                FERT_AIM_AK,
+            </if>
+            <if test="soilccK != null">
+                SOILCC_K,
+            </if>
+            <if test="soilccP != null">
+                SOILCC_P,
+            </if>
+            <if test="soilccN != null">
+                SOILCC_N,
+            </if>
+            <if test="soilsupAn != null">
+                SOILSUP_AN,
+            </if>
+            <if test="soilsupAp != null">
+                SOILSUP_AP,
+            </if>
+            <if test="soilsupAk != null">
+                SOILSUP_AK,
+            </if>
+            <if test="fertsupAn != null">
+                FERTSUP_AN,
+            </if>
+            <if test="fertsupAp != null">
+                FERTSUP_AP,
+            </if>
+            <if test="fertsupAk != null">
+                FERTSUP_AK,
+            </if>
+            <if test="fstageAnI != null">
+                FSTAGE_AN_I,
+            </if>
+            <if test="fstageApI != null">
+                FSTAGE_AP_I,
+            </if>
+            <if test="fstageAkI != null">
+                FSTAGE_AK_I,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpStgName != null">
+                #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="crpEtarealDate != null">
+                #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="crpYldMax != null">
+                #{crpYldMax,jdbcType=REAL},
+            </if>
+            <if test="crpPrdId != null">
+                #{crpPrdId,jdbcType=INTEGER},
+            </if>
+            <if test="fertAimAn != null">
+                #{fertAimAn,jdbcType=REAL},
+            </if>
+            <if test="fertAimAp != null">
+                #{fertAimAp,jdbcType=REAL},
+            </if>
+            <if test="fertAimAk != null">
+                #{fertAimAk,jdbcType=REAL},
+            </if>
+            <if test="soilccK != null">
+                #{soilccK,jdbcType=VARCHAR},
+            </if>
+            <if test="soilccP != null">
+                #{soilccP,jdbcType=VARCHAR},
+            </if>
+            <if test="soilccN != null">
+                #{soilccN,jdbcType=REAL},
+            </if>
+            <if test="soilsupAn != null">
+                #{soilsupAn,jdbcType=REAL},
+            </if>
+            <if test="soilsupAp != null">
+                #{soilsupAp,jdbcType=REAL},
+            </if>
+            <if test="soilsupAk != null">
+                #{soilsupAk,jdbcType=REAL},
+            </if>
+            <if test="fertsupAn != null">
+                #{fertsupAn,jdbcType=REAL},
+            </if>
+            <if test="fertsupAp != null">
+                #{fertsupAp,jdbcType=REAL},
+            </if>
+            <if test="fertsupAk != null">
+                #{fertsupAk,jdbcType=REAL},
+            </if>
+            <if test="fstageAnI != null">
+                #{fstageAnI,jdbcType=REAL},
+            </if>
+            <if test="fstageApI != null">
+                #{fstageApI,jdbcType=REAL},
+            </if>
+            <if test="fstageAkI != null">
+                #{fstageAkI,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfXffxscM">
+        update t_sf_xffxsc_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpStgName != null">
+                CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+            </if>
+            <if test="crpStgId != null">
+                CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+            </if>
+            <if test="crpEtarealDate != null">
+                CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+            </if>
+            <if test="crpYldMax != null">
+                CRP_YLD_MAX = #{crpYldMax,jdbcType=REAL},
+            </if>
+            <if test="crpPrdId != null">
+                CRP_PRD_ID = #{crpPrdId,jdbcType=INTEGER},
+            </if>
+            <if test="fertAimAn != null">
+                FERT_AIM_AN = #{fertAimAn,jdbcType=REAL},
+            </if>
+            <if test="fertAimAp != null">
+                FERT_AIM_AP = #{fertAimAp,jdbcType=REAL},
+            </if>
+            <if test="fertAimAk != null">
+                FERT_AIM_AK = #{fertAimAk,jdbcType=REAL},
+            </if>
+            <if test="soilccK != null">
+                SOILCC_K = #{soilccK,jdbcType=VARCHAR},
+            </if>
+            <if test="soilccP != null">
+                SOILCC_P = #{soilccP,jdbcType=VARCHAR},
+            </if>
+            <if test="soilccN != null">
+                SOILCC_N = #{soilccN,jdbcType=REAL},
+            </if>
+            <if test="soilsupAn != null">
+                SOILSUP_AN = #{soilsupAn,jdbcType=REAL},
+            </if>
+            <if test="soilsupAp != null">
+                SOILSUP_AP = #{soilsupAp,jdbcType=REAL},
+            </if>
+            <if test="soilsupAk != null">
+                SOILSUP_AK = #{soilsupAk,jdbcType=REAL},
+            </if>
+            <if test="fertsupAn != null">
+                FERTSUP_AN = #{fertsupAn,jdbcType=REAL},
+            </if>
+            <if test="fertsupAp != null">
+                FERTSUP_AP = #{fertsupAp,jdbcType=REAL},
+            </if>
+            <if test="fertsupAk != null">
+                FERTSUP_AK = #{fertsupAk,jdbcType=REAL},
+            </if>
+            <if test="fstageAnI != null">
+                FSTAGE_AN_I = #{fstageAnI,jdbcType=REAL},
+            </if>
+            <if test="fstageApI != null">
+                FSTAGE_AP_I = #{fstageApI,jdbcType=REAL},
+            </if>
+            <if test="fstageAkI != null">
+                FSTAGE_AK_I = #{fstageAkI,jdbcType=REAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfXffxscM">
+    update t_sf_xffxsc_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      CRP_STG_NAME = #{crpStgName,jdbcType=VARCHAR},
+      CRP_STG_ID = #{crpStgId,jdbcType=INTEGER},
+      CRP_ETAREAL_DATE = #{crpEtarealDate,jdbcType=DATE},
+      CRP_YLD_MAX = #{crpYldMax,jdbcType=REAL},
+      CRP_PRD_ID = #{crpPrdId,jdbcType=INTEGER},
+      FERT_AIM_AN = #{fertAimAn,jdbcType=REAL},
+      FERT_AIM_AP = #{fertAimAp,jdbcType=REAL},
+      FERT_AIM_AK = #{fertAimAk,jdbcType=REAL},
+      SOILCC_K = #{soilccK,jdbcType=VARCHAR},
+      SOILCC_P = #{soilccP,jdbcType=VARCHAR},
+      SOILCC_N = #{soilccN,jdbcType=REAL},
+      SOILSUP_AN = #{soilsupAn,jdbcType=REAL},
+      SOILSUP_AP = #{soilsupAp,jdbcType=REAL},
+      SOILSUP_AK = #{soilsupAk,jdbcType=REAL},
+      FERTSUP_AN = #{fertsupAn,jdbcType=REAL},
+      FERTSUP_AP = #{fertsupAp,jdbcType=REAL},
+      FERTSUP_AK = #{fertsupAk,jdbcType=REAL},
+      FSTAGE_AN_I = #{fstageAnI,jdbcType=REAL},
+      FSTAGE_AP_I = #{fstageApI,jdbcType=REAL},
+      FSTAGE_AK_I = #{fstageAkI,jdbcType=REAL}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

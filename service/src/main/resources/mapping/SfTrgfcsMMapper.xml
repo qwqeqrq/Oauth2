@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfTrgfcsMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfTrgfcsM">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="PLANT_YEAR" property="plantYear" jdbcType="DATE"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="SOILCC_NS" property="soilccNs" jdbcType="REAL"/>
+        <result column="SOILCC_PS" property="soilccPs" jdbcType="REAL"/>
+        <result column="SOILCC_KS" property="soilccKs" jdbcType="REAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, FIELD_ID, PLANT_YEAR, CRP_VRT_ID, SOILCC_NS, SOILCC_PS, SOILCC_KS
+  </sql>
+    <select id="getParaOfField" resultType="java.lang.String">
+    SELECT CONCAT_WS(',',IFNULL(SOILCC_NS,0),IFNULL(SOILCC_PS,0),IFNULL(SOILCC_KS,0))
+    FROM t_SF_TRGFCS_M
+    WHERE FIELD_ID=#{fieldid} AND CRP_VRT_ID=#{vatid} ORDER BY PLANT_YEAR DESC LIMIT 1
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_trgfcs_m
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_sf_trgfcs_m
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfTrgfcsM">
+    insert into t_sf_trgfcs_m (id, FIELD_ID, PLANT_YEAR, 
+      CRP_VRT_ID, SOILCC_NS, SOILCC_PS, 
+      SOILCC_KS)
+    values (#{id,jdbcType=INTEGER}, #{fieldId,jdbcType=BIGINT}, #{plantYear,jdbcType=DATE}, 
+      #{crpVrtId,jdbcType=BIGINT}, #{soilccNs,jdbcType=REAL}, #{soilccPs,jdbcType=REAL}, 
+      #{soilccKs,jdbcType=REAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfTrgfcsM">
+        insert into t_sf_trgfcs_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="plantYear != null">
+                PLANT_YEAR,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="soilccNs != null">
+                SOILCC_NS,
+            </if>
+            <if test="soilccPs != null">
+                SOILCC_PS,
+            </if>
+            <if test="soilccKs != null">
+                SOILCC_KS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="plantYear != null">
+                #{plantYear,jdbcType=DATE},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="soilccNs != null">
+                #{soilccNs,jdbcType=REAL},
+            </if>
+            <if test="soilccPs != null">
+                #{soilccPs,jdbcType=REAL},
+            </if>
+            <if test="soilccKs != null">
+                #{soilccKs,jdbcType=REAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfTrgfcsM">
+        update t_sf_trgfcs_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="plantYear != null">
+                PLANT_YEAR = #{plantYear,jdbcType=DATE},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="soilccNs != null">
+                SOILCC_NS = #{soilccNs,jdbcType=REAL},
+            </if>
+            <if test="soilccPs != null">
+                SOILCC_PS = #{soilccPs,jdbcType=REAL},
+            </if>
+            <if test="soilccKs != null">
+                SOILCC_KS = #{soilccKs,jdbcType=REAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfTrgfcsM">
+    update t_sf_trgfcs_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      PLANT_YEAR = #{plantYear,jdbcType=DATE},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      SOILCC_NS = #{soilccNs,jdbcType=REAL},
+      SOILCC_PS = #{soilccPs,jdbcType=REAL},
+      SOILCC_KS = #{soilccKs,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

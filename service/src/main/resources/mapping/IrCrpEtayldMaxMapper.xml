@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.IrCrpEtayldMaxMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.IrCrpEtayldMax">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="CRP_SPC_ID" property="crpSpcId" jdbcType="BIGINT"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="CRP_YLDM_DATE" property="crpYldmDate" jdbcType="DATE"/>
+        <result column="CRP_YEAR_MAX" property="crpYearMax" jdbcType="INTEGER"/>
+        <result column="CRP_ETA_MAX" property="crpEtaMax" jdbcType="REAL"/>
+        <result column="CRP_YLD_MAX" property="crpYldMax" jdbcType="INTEGER"/>
+        <result column="CRP_MAX" property="crpMax" jdbcType="REAL"/>
+        <result column="FREQ_P" property="freqP" jdbcType="REAL"/>
+        <result column="FREQ_ET0" property="freqEt0" jdbcType="REAL"/>
+        <result column="FREQ_YEAR" property="freqYear" jdbcType="DATE"/>
+        <result column="FREQ_SUMET0_YEAR" property="freqSumet0Year" jdbcType="DATE"/>
+        <result column="CRP_ET0_MAX" property="crpEt0Max" jdbcType="REAL"/>
+        <result column="CRP_ET0MAX_YEAR" property="crpEt0maxYear" jdbcType="REAL"/>
+        <result column="CRP_ETAYLD_DATE" property="crpEtayldDate" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, FIELD_ID, CRP_SPC_ID, CRP_VRT_ID, CRP_YLDM_DATE, CRP_YEAR_MAX, CRP_ETA_MAX, CRP_YLD_MAX, 
+    CRP_MAX, FREQ_P, FREQ_ET0, FREQ_YEAR, FREQ_SUMET0_YEAR, CRP_ET0_MAX, CRP_ET0MAX_YEAR, 
+    CRP_ETAYLD_DATE
+  </sql>
+    <select id="searchYaim" resultType="java.lang.Float">
+    SELECT CRP_YLD_MAX
+    FROM t_IR_CRP_ETAYLD_MAX
+    WHERE FIELD_ID=#{fieldid} AND CRP_SPC_ID=(SELECT cropsId FROM CROP_VARIETY WHERE ID=#{vatid}) AND CRP_YEAR_MAX=#{date}
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_ir_crp_etayld_max
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_ir_crp_etayld_max
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.IrCrpEtayldMax">
+    insert into t_ir_crp_etayld_max (id, FIELD_ID, CRP_SPC_ID, 
+      CRP_VRT_ID, CRP_YLDM_DATE, CRP_YEAR_MAX, 
+      CRP_ETA_MAX, CRP_YLD_MAX, CRP_MAX, 
+      FREQ_P, FREQ_ET0, FREQ_YEAR, FREQ_SUMET0_YEAR, 
+      CRP_ET0_MAX, CRP_ET0MAX_YEAR, CRP_ETAYLD_DATE
+      )
+    values (#{id,jdbcType=BIGINT}, #{fieldId,jdbcType=BIGINT}, #{crpSpcId,jdbcType=BIGINT}, 
+      #{crpVrtId,jdbcType=BIGINT}, #{crpYldmDate,jdbcType=DATE}, #{crpYearMax,jdbcType=INTEGER}, 
+      #{crpEtaMax,jdbcType=REAL}, #{crpYldMax,jdbcType=INTEGER}, #{crpMax,jdbcType=REAL}, 
+      #{freqP,jdbcType=REAL}, #{freqEt0,jdbcType=REAL}, #{freqYear,jdbcType=DATE}, #{freqSumet0Year,jdbcType=DATE}, 
+      #{crpEt0Max,jdbcType=REAL}, #{crpEt0maxYear,jdbcType=REAL}, #{crpEtayldDate,jdbcType=DATE}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.IrCrpEtayldMax">
+        insert into t_ir_crp_etayld_max
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="crpSpcId != null">
+                CRP_SPC_ID,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="crpYldmDate != null">
+                CRP_YLDM_DATE,
+            </if>
+            <if test="crpYearMax != null">
+                CRP_YEAR_MAX,
+            </if>
+            <if test="crpEtaMax != null">
+                CRP_ETA_MAX,
+            </if>
+            <if test="crpYldMax != null">
+                CRP_YLD_MAX,
+            </if>
+            <if test="crpMax != null">
+                CRP_MAX,
+            </if>
+            <if test="freqP != null">
+                FREQ_P,
+            </if>
+            <if test="freqEt0 != null">
+                FREQ_ET0,
+            </if>
+            <if test="freqYear != null">
+                FREQ_YEAR,
+            </if>
+            <if test="freqSumet0Year != null">
+                FREQ_SUMET0_YEAR,
+            </if>
+            <if test="crpEt0Max != null">
+                CRP_ET0_MAX,
+            </if>
+            <if test="crpEt0maxYear != null">
+                CRP_ET0MAX_YEAR,
+            </if>
+            <if test="crpEtayldDate != null">
+                CRP_ETAYLD_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpSpcId != null">
+                #{crpSpcId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpYldmDate != null">
+                #{crpYldmDate,jdbcType=DATE},
+            </if>
+            <if test="crpYearMax != null">
+                #{crpYearMax,jdbcType=INTEGER},
+            </if>
+            <if test="crpEtaMax != null">
+                #{crpEtaMax,jdbcType=REAL},
+            </if>
+            <if test="crpYldMax != null">
+                #{crpYldMax,jdbcType=INTEGER},
+            </if>
+            <if test="crpMax != null">
+                #{crpMax,jdbcType=REAL},
+            </if>
+            <if test="freqP != null">
+                #{freqP,jdbcType=REAL},
+            </if>
+            <if test="freqEt0 != null">
+                #{freqEt0,jdbcType=REAL},
+            </if>
+            <if test="freqYear != null">
+                #{freqYear,jdbcType=DATE},
+            </if>
+            <if test="freqSumet0Year != null">
+                #{freqSumet0Year,jdbcType=DATE},
+            </if>
+            <if test="crpEt0Max != null">
+                #{crpEt0Max,jdbcType=REAL},
+            </if>
+            <if test="crpEt0maxYear != null">
+                #{crpEt0maxYear,jdbcType=REAL},
+            </if>
+            <if test="crpEtayldDate != null">
+                #{crpEtayldDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.IrCrpEtayldMax">
+        update t_ir_crp_etayld_max
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="crpSpcId != null">
+                CRP_SPC_ID = #{crpSpcId,jdbcType=BIGINT},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="crpYldmDate != null">
+                CRP_YLDM_DATE = #{crpYldmDate,jdbcType=DATE},
+            </if>
+            <if test="crpYearMax != null">
+                CRP_YEAR_MAX = #{crpYearMax,jdbcType=INTEGER},
+            </if>
+            <if test="crpEtaMax != null">
+                CRP_ETA_MAX = #{crpEtaMax,jdbcType=REAL},
+            </if>
+            <if test="crpYldMax != null">
+                CRP_YLD_MAX = #{crpYldMax,jdbcType=INTEGER},
+            </if>
+            <if test="crpMax != null">
+                CRP_MAX = #{crpMax,jdbcType=REAL},
+            </if>
+            <if test="freqP != null">
+                FREQ_P = #{freqP,jdbcType=REAL},
+            </if>
+            <if test="freqEt0 != null">
+                FREQ_ET0 = #{freqEt0,jdbcType=REAL},
+            </if>
+            <if test="freqYear != null">
+                FREQ_YEAR = #{freqYear,jdbcType=DATE},
+            </if>
+            <if test="freqSumet0Year != null">
+                FREQ_SUMET0_YEAR = #{freqSumet0Year,jdbcType=DATE},
+            </if>
+            <if test="crpEt0Max != null">
+                CRP_ET0_MAX = #{crpEt0Max,jdbcType=REAL},
+            </if>
+            <if test="crpEt0maxYear != null">
+                CRP_ET0MAX_YEAR = #{crpEt0maxYear,jdbcType=REAL},
+            </if>
+            <if test="crpEtayldDate != null">
+                CRP_ETAYLD_DATE = #{crpEtayldDate,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.IrCrpEtayldMax">
+    update t_ir_crp_etayld_max
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      CRP_SPC_ID = #{crpSpcId,jdbcType=BIGINT},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      CRP_YLDM_DATE = #{crpYldmDate,jdbcType=DATE},
+      CRP_YEAR_MAX = #{crpYearMax,jdbcType=INTEGER},
+      CRP_ETA_MAX = #{crpEtaMax,jdbcType=REAL},
+      CRP_YLD_MAX = #{crpYldMax,jdbcType=INTEGER},
+      CRP_MAX = #{crpMax,jdbcType=REAL},
+      FREQ_P = #{freqP,jdbcType=REAL},
+      FREQ_ET0 = #{freqEt0,jdbcType=REAL},
+      FREQ_YEAR = #{freqYear,jdbcType=DATE},
+      FREQ_SUMET0_YEAR = #{freqSumet0Year,jdbcType=DATE},
+      CRP_ET0_MAX = #{crpEt0Max,jdbcType=REAL},
+      CRP_ET0MAX_YEAR = #{crpEt0maxYear,jdbcType=REAL},
+      CRP_ETAYLD_DATE = #{crpEtayldDate,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

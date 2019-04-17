@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.DeviceMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.Device">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="serialno" property="serialno" jdbcType="VARCHAR"/>
+        <result column="iscadaId" property="iscadaid" jdbcType="VARCHAR"/>
+        <result column="provinceid" property="provinceid" jdbcType="BIGINT"/>
+        <result column="cityid" property="cityid" jdbcType="BIGINT"/>
+        <result column="districtid" property="districtid" jdbcType="BIGINT"/>
+        <result column="town" property="town" jdbcType="VARCHAR"/>
+        <result column="village" property="village" jdbcType="VARCHAR"/>
+        <result column="blockid" property="blockid" jdbcType="BIGINT"/>
+        <result column="basinid" property="basinid" jdbcType="BIGINT"/>
+        <result column="irrigationid" property="irrigationid" jdbcType="BIGINT"/>
+        <result column="projectid" property="projectid" jdbcType="BIGINT"/>
+        <result column="maker" property="maker" jdbcType="VARCHAR"/>
+        <result column="model" property="model" jdbcType="VARCHAR"/>
+        <result column="dclass" property="dclass" jdbcType="VARCHAR"/>
+        <result column="fdeviceid" property="fdeviceid" jdbcType="BIGINT"/>
+        <result column="dname" property="dname" jdbcType="VARCHAR"/>
+        <result column="latitude" property="latitude" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="photourl" property="photourl" jdbcType="VARCHAR"/>
+        <result column="extension" property="extension" jdbcType="VARCHAR"/>
+        <result column="points" property="points" jdbcType="VARCHAR"/>
+        <result column="radius" property="radius" jdbcType="INTEGER"/>
+        <result column="delflg" property="delflg" jdbcType="TINYINT"/>
+        <result column="validFlag" property="validflag" jdbcType="TINYINT"/>
+        <result column="pid" property="pid" jdbcType="BIGINT"/>
+        <result column="dripidx" property="dripidx" jdbcType="INTEGER"/>
+        <result column="gid" property="gid" jdbcType="BIGINT"/>
+        <result column="ordernum" property="ordernum" jdbcType="INTEGER"/>
+        <result column="initialization" property="initialization" jdbcType="VARCHAR"/>
+        <result column="kml" property="kml" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="created_user" property="createdUser" jdbcType="VARCHAR"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_user" property="updatedUser" jdbcType="VARCHAR"/>
+        <result column="isWaterMeter" property="iswatermeter" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, serialno, iscadaId, provinceid, cityid, districtid, town, village, blockid, basinid, 
+    irrigationid, projectid, maker, model, dclass, fdeviceid, dname, latitude, longitude, 
+    status, photourl, extension, points, radius, delflg, validFlag, pid, dripidx, gid, 
+    ordernum, initialization, kml, created_at, created_user, updated_at, updated_user, 
+    isWaterMeter
+  </sql>
+    <select id="Valuename" resultType="java.lang.String">
+        SELECT group_concat(dname)
+        FROM device AS A, rtudogrps AS B
+        WHERE A.gid=B.id  AND b.blockid=#{fieldid} and b.dripgrpidx=#{i}
+    </select>
+    <select id="Valuenum" resultType="java.lang.Integer">
+        SELECT COUNT(A.dname)
+        FROM device AS A, rtudogrps AS B
+        WHERE A.gid = B.id AND b.blockid =#{fieldid} AND b.dripgrpidx=#{i}
+    </select>
+    <select id="extension" resultType="java.lang.String">
+    SELECT
+    DISTINCT A.extension
+    FROM device AS A, irrigation_plan_working AS B
+    WHERE A.blockid = #{fieldid} AND A.dclass = 13 AND A.blockid = B.blockid
+    group by a.id
+    limit 1
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from device
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from device
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.Device">
+    insert into device (id, serialno, iscadaId, 
+      provinceid, cityid, districtid, 
+      town, village, blockid, 
+      basinid, irrigationid, projectid, 
+      maker, model, dclass, 
+      fdeviceid, dname, latitude, 
+      longitude, status, photourl, 
+      extension, points, radius, 
+      delflg, validFlag, pid, 
+      dripidx, gid, ordernum, 
+      initialization, kml, created_at, 
+      created_user, updated_at, updated_user, 
+      isWaterMeter)
+    values (#{id,jdbcType=BIGINT}, #{serialno,jdbcType=VARCHAR}, #{iscadaid,jdbcType=VARCHAR}, 
+      #{provinceid,jdbcType=BIGINT}, #{cityid,jdbcType=BIGINT}, #{districtid,jdbcType=BIGINT}, 
+      #{town,jdbcType=VARCHAR}, #{village,jdbcType=VARCHAR}, #{blockid,jdbcType=BIGINT}, 
+      #{basinid,jdbcType=BIGINT}, #{irrigationid,jdbcType=BIGINT}, #{projectid,jdbcType=BIGINT}, 
+      #{maker,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{dclass,jdbcType=VARCHAR}, 
+      #{fdeviceid,jdbcType=BIGINT}, #{dname,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{photourl,jdbcType=VARCHAR}, 
+      #{extension,jdbcType=VARCHAR}, #{points,jdbcType=VARCHAR}, #{radius,jdbcType=INTEGER}, 
+      #{delflg,jdbcType=TINYINT}, #{validflag,jdbcType=TINYINT}, #{pid,jdbcType=BIGINT}, 
+      #{dripidx,jdbcType=INTEGER}, #{gid,jdbcType=BIGINT}, #{ordernum,jdbcType=INTEGER}, 
+      #{initialization,jdbcType=VARCHAR}, #{kml,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}, 
+      #{iswatermeter,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.Device">
+        insert into device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="serialno != null">
+                serialno,
+            </if>
+            <if test="iscadaid != null">
+                iscadaId,
+            </if>
+            <if test="provinceid != null">
+                provinceid,
+            </if>
+            <if test="cityid != null">
+                cityid,
+            </if>
+            <if test="districtid != null">
+                districtid,
+            </if>
+            <if test="town != null">
+                town,
+            </if>
+            <if test="village != null">
+                village,
+            </if>
+            <if test="blockid != null">
+                blockid,
+            </if>
+            <if test="basinid != null">
+                basinid,
+            </if>
+            <if test="irrigationid != null">
+                irrigationid,
+            </if>
+            <if test="projectid != null">
+                projectid,
+            </if>
+            <if test="maker != null">
+                maker,
+            </if>
+            <if test="model != null">
+                model,
+            </if>
+            <if test="dclass != null">
+                dclass,
+            </if>
+            <if test="fdeviceid != null">
+                fdeviceid,
+            </if>
+            <if test="dname != null">
+                dname,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="photourl != null">
+                photourl,
+            </if>
+            <if test="extension != null">
+                extension,
+            </if>
+            <if test="points != null">
+                points,
+            </if>
+            <if test="radius != null">
+                radius,
+            </if>
+            <if test="delflg != null">
+                delflg,
+            </if>
+            <if test="validflag != null">
+                validFlag,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="dripidx != null">
+                dripidx,
+            </if>
+            <if test="gid != null">
+                gid,
+            </if>
+            <if test="ordernum != null">
+                ordernum,
+            </if>
+            <if test="initialization != null">
+                initialization,
+            </if>
+            <if test="kml != null">
+                kml,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="createdUser != null">
+                created_user,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="updatedUser != null">
+                updated_user,
+            </if>
+            <if test="iswatermeter != null">
+                isWaterMeter,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="serialno != null">
+                #{serialno,jdbcType=VARCHAR},
+            </if>
+            <if test="iscadaid != null">
+                #{iscadaid,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceid != null">
+                #{provinceid,jdbcType=BIGINT},
+            </if>
+            <if test="cityid != null">
+                #{cityid,jdbcType=BIGINT},
+            </if>
+            <if test="districtid != null">
+                #{districtid,jdbcType=BIGINT},
+            </if>
+            <if test="town != null">
+                #{town,jdbcType=VARCHAR},
+            </if>
+            <if test="village != null">
+                #{village,jdbcType=VARCHAR},
+            </if>
+            <if test="blockid != null">
+                #{blockid,jdbcType=BIGINT},
+            </if>
+            <if test="basinid != null">
+                #{basinid,jdbcType=BIGINT},
+            </if>
+            <if test="irrigationid != null">
+                #{irrigationid,jdbcType=BIGINT},
+            </if>
+            <if test="projectid != null">
+                #{projectid,jdbcType=BIGINT},
+            </if>
+            <if test="maker != null">
+                #{maker,jdbcType=VARCHAR},
+            </if>
+            <if test="model != null">
+                #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="dclass != null">
+                #{dclass,jdbcType=VARCHAR},
+            </if>
+            <if test="fdeviceid != null">
+                #{fdeviceid,jdbcType=BIGINT},
+            </if>
+            <if test="dname != null">
+                #{dname,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="photourl != null">
+                #{photourl,jdbcType=VARCHAR},
+            </if>
+            <if test="extension != null">
+                #{extension,jdbcType=VARCHAR},
+            </if>
+            <if test="points != null">
+                #{points,jdbcType=VARCHAR},
+            </if>
+            <if test="radius != null">
+                #{radius,jdbcType=INTEGER},
+            </if>
+            <if test="delflg != null">
+                #{delflg,jdbcType=TINYINT},
+            </if>
+            <if test="validflag != null">
+                #{validflag,jdbcType=TINYINT},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="dripidx != null">
+                #{dripidx,jdbcType=INTEGER},
+            </if>
+            <if test="gid != null">
+                #{gid,jdbcType=BIGINT},
+            </if>
+            <if test="ordernum != null">
+                #{ordernum,jdbcType=INTEGER},
+            </if>
+            <if test="initialization != null">
+                #{initialization,jdbcType=VARCHAR},
+            </if>
+            <if test="kml != null">
+                #{kml,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                #{updatedUser,jdbcType=VARCHAR},
+            </if>
+            <if test="iswatermeter != null">
+                #{iswatermeter,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.Device">
+        update device
+        <set>
+            <if test="serialno != null">
+                serialno = #{serialno,jdbcType=VARCHAR},
+            </if>
+            <if test="iscadaid != null">
+                iscadaId = #{iscadaid,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceid != null">
+                provinceid = #{provinceid,jdbcType=BIGINT},
+            </if>
+            <if test="cityid != null">
+                cityid = #{cityid,jdbcType=BIGINT},
+            </if>
+            <if test="districtid != null">
+                districtid = #{districtid,jdbcType=BIGINT},
+            </if>
+            <if test="town != null">
+                town = #{town,jdbcType=VARCHAR},
+            </if>
+            <if test="village != null">
+                village = #{village,jdbcType=VARCHAR},
+            </if>
+            <if test="blockid != null">
+                blockid = #{blockid,jdbcType=BIGINT},
+            </if>
+            <if test="basinid != null">
+                basinid = #{basinid,jdbcType=BIGINT},
+            </if>
+            <if test="irrigationid != null">
+                irrigationid = #{irrigationid,jdbcType=BIGINT},
+            </if>
+            <if test="projectid != null">
+                projectid = #{projectid,jdbcType=BIGINT},
+            </if>
+            <if test="maker != null">
+                maker = #{maker,jdbcType=VARCHAR},
+            </if>
+            <if test="model != null">
+                model = #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="dclass != null">
+                dclass = #{dclass,jdbcType=VARCHAR},
+            </if>
+            <if test="fdeviceid != null">
+                fdeviceid = #{fdeviceid,jdbcType=BIGINT},
+            </if>
+            <if test="dname != null">
+                dname = #{dname,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="photourl != null">
+                photourl = #{photourl,jdbcType=VARCHAR},
+            </if>
+            <if test="extension != null">
+                extension = #{extension,jdbcType=VARCHAR},
+            </if>
+            <if test="points != null">
+                points = #{points,jdbcType=VARCHAR},
+            </if>
+            <if test="radius != null">
+                radius = #{radius,jdbcType=INTEGER},
+            </if>
+            <if test="delflg != null">
+                delflg = #{delflg,jdbcType=TINYINT},
+            </if>
+            <if test="validflag != null">
+                validFlag = #{validflag,jdbcType=TINYINT},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=BIGINT},
+            </if>
+            <if test="dripidx != null">
+                dripidx = #{dripidx,jdbcType=INTEGER},
+            </if>
+            <if test="gid != null">
+                gid = #{gid,jdbcType=BIGINT},
+            </if>
+            <if test="ordernum != null">
+                ordernum = #{ordernum,jdbcType=INTEGER},
+            </if>
+            <if test="initialization != null">
+                initialization = #{initialization,jdbcType=VARCHAR},
+            </if>
+            <if test="kml != null">
+                kml = #{kml,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdUser != null">
+                created_user = #{createdUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedUser != null">
+                updated_user = #{updatedUser,jdbcType=VARCHAR},
+            </if>
+            <if test="iswatermeter != null">
+                isWaterMeter = #{iswatermeter,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.Device">
+    update device
+    set serialno = #{serialno,jdbcType=VARCHAR},
+      iscadaId = #{iscadaid,jdbcType=VARCHAR},
+      provinceid = #{provinceid,jdbcType=BIGINT},
+      cityid = #{cityid,jdbcType=BIGINT},
+      districtid = #{districtid,jdbcType=BIGINT},
+      town = #{town,jdbcType=VARCHAR},
+      village = #{village,jdbcType=VARCHAR},
+      blockid = #{blockid,jdbcType=BIGINT},
+      basinid = #{basinid,jdbcType=BIGINT},
+      irrigationid = #{irrigationid,jdbcType=BIGINT},
+      projectid = #{projectid,jdbcType=BIGINT},
+      maker = #{maker,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      dclass = #{dclass,jdbcType=VARCHAR},
+      fdeviceid = #{fdeviceid,jdbcType=BIGINT},
+      dname = #{dname,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      photourl = #{photourl,jdbcType=VARCHAR},
+      extension = #{extension,jdbcType=VARCHAR},
+      points = #{points,jdbcType=VARCHAR},
+      radius = #{radius,jdbcType=INTEGER},
+      delflg = #{delflg,jdbcType=TINYINT},
+      validFlag = #{validflag,jdbcType=TINYINT},
+      pid = #{pid,jdbcType=BIGINT},
+      dripidx = #{dripidx,jdbcType=INTEGER},
+      gid = #{gid,jdbcType=BIGINT},
+      ordernum = #{ordernum,jdbcType=INTEGER},
+      initialization = #{initialization,jdbcType=VARCHAR},
+      kml = #{kml,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR},
+      isWaterMeter = #{iswatermeter,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

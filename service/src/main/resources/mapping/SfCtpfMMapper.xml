@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.second.service.Dao.SfCtpfMMapper">
+    <resultMap id="BaseResultMap" type="com.second.service.BaseDao.SfCtpfM">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="FIELD_ID" property="fieldId" jdbcType="BIGINT"/>
+        <result column="FIELD_SITE" property="fieldSite" jdbcType="VARCHAR"/>
+        <result column="PLANT_YEAR" property="plantYear" jdbcType="VARCHAR"/>
+        <result column="CRP_VRT_ID" property="crpVrtId" jdbcType="BIGINT"/>
+        <result column="SAMPLE_NM" property="sampleNm" jdbcType="VARCHAR"/>
+        <result column="SOILTEST_AN" property="soiltestAn" jdbcType="REAL"/>
+        <result column="SOILTEST_AP" property="soiltestAp" jdbcType="REAL"/>
+        <result column="SOILTEST_AK" property="soiltestAk" jdbcType="REAL"/>
+        <result column="testing_time" property="testingTime" jdbcType="VARCHAR"/>
+        <result column="establish_time" property="establishTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, FIELD_ID, FIELD_SITE, PLANT_YEAR, CRP_VRT_ID, SAMPLE_NM, SOILTEST_AN, SOILTEST_AP, 
+    SOILTEST_AK, testing_time, establish_time
+  </sql>
+    <select id="getElementOfField" resultType="java.lang.String">
+    SELECT CONCAT_WS(',', IFNULL(SOILTEST_AK, 0), IFNULL(SOILTEST_AN, 0), IFNULL(SOILTEST_AP, 0) )
+    FROM t_sf_ctpf_m
+    WHERE FIELD_ID =#{fieldid} ORDER BY testing_time DESC LIMIT 1
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sf_ctpf_m
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_sf_ctpf_m
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.second.service.BaseDao.SfCtpfM">
+    insert into t_sf_ctpf_m (ID, FIELD_ID, FIELD_SITE, 
+      PLANT_YEAR, CRP_VRT_ID, SAMPLE_NM, 
+      SOILTEST_AN, SOILTEST_AP, SOILTEST_AK, 
+      testing_time, establish_time)
+    values (#{id,jdbcType=BIGINT}, #{fieldId,jdbcType=BIGINT}, #{fieldSite,jdbcType=VARCHAR}, 
+      #{plantYear,jdbcType=VARCHAR}, #{crpVrtId,jdbcType=BIGINT}, #{sampleNm,jdbcType=VARCHAR}, 
+      #{soiltestAn,jdbcType=REAL}, #{soiltestAp,jdbcType=REAL}, #{soiltestAk,jdbcType=REAL}, 
+      #{testingTime,jdbcType=VARCHAR}, #{establishTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.second.service.BaseDao.SfCtpfM">
+        insert into t_sf_ctpf_m
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="fieldId != null">
+                FIELD_ID,
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE,
+            </if>
+            <if test="plantYear != null">
+                PLANT_YEAR,
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID,
+            </if>
+            <if test="sampleNm != null">
+                SAMPLE_NM,
+            </if>
+            <if test="soiltestAn != null">
+                SOILTEST_AN,
+            </if>
+            <if test="soiltestAp != null">
+                SOILTEST_AP,
+            </if>
+            <if test="soiltestAk != null">
+                SOILTEST_AK,
+            </if>
+            <if test="testingTime != null">
+                testing_time,
+            </if>
+            <if test="establishTime != null">
+                establish_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="fieldId != null">
+                #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="plantYear != null">
+                #{plantYear,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="sampleNm != null">
+                #{sampleNm,jdbcType=VARCHAR},
+            </if>
+            <if test="soiltestAn != null">
+                #{soiltestAn,jdbcType=REAL},
+            </if>
+            <if test="soiltestAp != null">
+                #{soiltestAp,jdbcType=REAL},
+            </if>
+            <if test="soiltestAk != null">
+                #{soiltestAk,jdbcType=REAL},
+            </if>
+            <if test="testingTime != null">
+                #{testingTime,jdbcType=VARCHAR},
+            </if>
+            <if test="establishTime != null">
+                #{establishTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.second.service.BaseDao.SfCtpfM">
+        update t_sf_ctpf_m
+        <set>
+            <if test="fieldId != null">
+                FIELD_ID = #{fieldId,jdbcType=BIGINT},
+            </if>
+            <if test="fieldSite != null">
+                FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+            </if>
+            <if test="plantYear != null">
+                PLANT_YEAR = #{plantYear,jdbcType=VARCHAR},
+            </if>
+            <if test="crpVrtId != null">
+                CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+            </if>
+            <if test="sampleNm != null">
+                SAMPLE_NM = #{sampleNm,jdbcType=VARCHAR},
+            </if>
+            <if test="soiltestAn != null">
+                SOILTEST_AN = #{soiltestAn,jdbcType=REAL},
+            </if>
+            <if test="soiltestAp != null">
+                SOILTEST_AP = #{soiltestAp,jdbcType=REAL},
+            </if>
+            <if test="soiltestAk != null">
+                SOILTEST_AK = #{soiltestAk,jdbcType=REAL},
+            </if>
+            <if test="testingTime != null">
+                testing_time = #{testingTime,jdbcType=VARCHAR},
+            </if>
+            <if test="establishTime != null">
+                establish_time = #{establishTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.second.service.BaseDao.SfCtpfM">
+    update t_sf_ctpf_m
+    set FIELD_ID = #{fieldId,jdbcType=BIGINT},
+      FIELD_SITE = #{fieldSite,jdbcType=VARCHAR},
+      PLANT_YEAR = #{plantYear,jdbcType=VARCHAR},
+      CRP_VRT_ID = #{crpVrtId,jdbcType=BIGINT},
+      SAMPLE_NM = #{sampleNm,jdbcType=VARCHAR},
+      SOILTEST_AN = #{soiltestAn,jdbcType=REAL},
+      SOILTEST_AP = #{soiltestAp,jdbcType=REAL},
+      SOILTEST_AK = #{soiltestAk,jdbcType=REAL},
+      testing_time = #{testingTime,jdbcType=VARCHAR},
+      establish_time = #{establishTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
