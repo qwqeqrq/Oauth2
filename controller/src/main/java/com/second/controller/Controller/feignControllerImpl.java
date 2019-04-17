@@ -17,8 +17,8 @@ public class feignControllerImpl {
     @GetMapping
     public List<Object> findAll(HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         List<Object> list = new ArrayList<>();
-//        list.add(String.valueOf(httpServletResponse));
-//        list.add(httpServletRequest);
+        list.add(String.valueOf(httpServletResponse));
+        list.add(httpServletRequest);
         list.add(feignController.findAll());
         return list;
     }
